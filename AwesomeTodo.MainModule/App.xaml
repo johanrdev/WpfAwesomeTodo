@@ -5,6 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/Color.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/Button.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
