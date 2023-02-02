@@ -22,4 +22,10 @@
         <GradientStop Color="Transparent" Offset="0.8" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="TextBoxBackgroundGradientStyle" StartPoint="0, 0" EndPoint="0, 1">
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource MediumGrayColor }" Offset="0.95" />
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="1" />
+    </LinearGradientBrush>
+
 </ResourceDictionary>

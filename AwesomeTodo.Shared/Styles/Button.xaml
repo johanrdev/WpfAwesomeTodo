@@ -6,9 +6,9 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="38" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Border.CornerRadius" Value="6" />
-        <Setter Property="Foreground" Value="{ StaticResource ForegroundBrush }" />
+        <Setter Property="Foreground" Value="{ StaticResource LightGrayForegroundBrush }" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Tag" Value="{ x:Null }" />
         <Setter Property="Template">
@@ -19,7 +19,7 @@
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="ButtonIcon" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" To="{ StaticResource ForegroundColor  }"  Duration="0:0:0.3" />
+                                        <ColorAnimation Storyboard.TargetName="ButtonIcon" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)" To="{ StaticResource LightGrayForegroundColor  }"  Duration="0:0:0.3" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">

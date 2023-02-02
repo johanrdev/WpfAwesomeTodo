@@ -26,22 +26,51 @@
     <Style x:Key="TodosListViewItemStyle" TargetType="{ x:Type ListViewItem }">
         <Setter Property="TextElement.Foreground" Value="{ StaticResource AccentBrush }" />
         <Setter Property="TextElement.FontSize" Value="14" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{ x:Type ListViewItem }">
                     <Border x:Name="ListViewItemBorder" Padding="{ TemplateBinding Padding }" Margin="{ TemplateBinding Margin }" Background="{ StaticResource ListViewItemBackgroundGradientStyle }" BorderThickness="{ TemplateBinding BorderThickness }" BorderBrush="{ StaticResource ListViewItemBorderGradientStyle }" Height="70" CornerRadius="6" SnapsToDevicePixels="True">
                         <Border.Effect>
-                            <DropShadowEffect x:Name="ListViewItemBorder" Color="{ StaticResource DeepDarkGrayColor }" BlurRadius="4" ShadowDepth="4" Direction="270" Opacity="0.4" />
+                            <DropShadowEffect x:Name="ListViewItemBorder" Color="{ StaticResource DeepestDarkGrayColor }" BlurRadius="4" ShadowDepth="4" Direction="270" Opacity="0.4" />
                         </Border.Effect>
 
-                        <DockPanel LastChildFill="False">
-                            <Border Width="20">
-                                <fa:IconImage Icon="GripLinesVertical" Height="18" Foreground="{ StaticResource DeepDarkGrayBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource DeepDarkGrayColor }" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource LightGrayColor }" Duration="0:0:0.2" />
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <DockPanel LastChildFill="False" Margin="0">
+                            <Border Width="20" Cursor="ScrollNS">
+                                <fa:IconImage Icon="GripLinesVertical" Height="18" Foreground="{ StaticResource DeepestDarkGrayBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" />
                             </Border>
-                            <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                            <StackPanel DockPanel.Dock="Left">
                                 <ContentPresenter Content="{ Binding Path=Title, FallbackValue='Item title goes here' }" HorizontalAlignment="{ TemplateBinding HorizontalContentAlignment }" VerticalAlignment="{ TemplateBinding VerticalContentAlignment }" SnapsToDevicePixels="True" />
-                                <Label Content="Published 12 jan 2023" Foreground="{ StaticResource ForegroundBrush }" FontSize="11" Padding="0" />
-                                <Label Content="Estimated length: 2 hours" Foreground="{ StaticResource ForegroundBrush }" FontSize="11" Padding="0" />
+                                <Label Content="Published: 12 jan 2023" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
+                                <Label Content="Estimated length: 2 hours" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
                             </StackPanel>
                         </DockPanel>
                     </Border>
