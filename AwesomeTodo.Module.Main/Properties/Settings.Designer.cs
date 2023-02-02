@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AwesomeTodo.MainModule.Properties
+namespace AwesomeTodo.Module.Main.Properties
 {
 
 

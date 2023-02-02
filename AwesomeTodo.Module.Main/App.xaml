@@ -1,4 +1,4 @@
-﻿<prism:PrismApplication x:Class="AwesomeTodo.MainModule.App"
+﻿<prism:PrismApplication x:Class="AwesomeTodo.Module.Main.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/">

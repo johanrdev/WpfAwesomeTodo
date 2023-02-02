@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 
-namespace AwesomeTodo.MainModule.Views
+namespace AwesomeTodo.Module.Main.Views
 {
     /// <summary>
     /// Interaction logic for ShellWindow.xaml
@@ -14,7 +13,7 @@ namespace AwesomeTodo.MainModule.Views
             InitializeComponent();
         }
 
-        private void DockPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left) DragMove();
         }

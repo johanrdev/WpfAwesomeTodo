@@ -1,7 +1,9 @@
-﻿using Prism.Ioc;
+﻿using AwesomeTodo.Module.Main.Views;
+using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 
-namespace AwesomeTodo.MainModule
+namespace AwesomeTodo.Module.Main
 {
     internal class MainModule : IModule
     {
