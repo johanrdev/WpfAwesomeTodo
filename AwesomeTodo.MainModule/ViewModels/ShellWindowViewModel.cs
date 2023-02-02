@@ -25,7 +25,7 @@ namespace AwesomeTodo.MainModule.ViewModels
             GotoPreviousViewCommand = new DelegateCommand(ExecuteGotoPreviousViewCommand);
             GotoNextViewCommand = new DelegateCommand(ExecuteGotoNextViewCommand);
             Todos = new ObservableCollection<Todo>();
-            Todos.Add(new Todo { Title = "My first todo" });
+            Todos.Add(new Todo { Title = "My first todo My first todo My first todo My first todo My first todo My first todo My first todo" });
             Todos.Add(new Todo { Title = "My second todo" });
             Todos.Add(new Todo { Title = "My third todo" });
             Todos.Add(new Todo { Title = "My fourth todo" });

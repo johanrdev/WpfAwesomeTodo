@@ -11,6 +11,26 @@
         <GradientStop Color="{ StaticResource LightGrayColor }" Offset="0.8" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="VerticalScrollBarBackgroundGradientStyle" StartPoint="0, 0" EndPoint="0, 1">
+        <GradientStop Color="{ StaticResource LightGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0.8" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="VerticalScrollBarBorderGradientStyle" StartPoint="1, 0" EndPoint="0, 0">
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource LightGrayColor }" Offset="0.8" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HorizontalScrollBarBackgroundGradientStyle" StartPoint="0, 0" EndPoint="1, 0">
+        <GradientStop Color="{ StaticResource LightGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0.8" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HorizontalScrollBarBorderGradientStyle" StartPoint="0, 1" EndPoint="0, 0">
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource LightGrayColor }" Offset="0.8" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="ListViewItemBackgroundGradientStyle" StartPoint="0, 0" EndPoint="0, 1">
         <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
         <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0.95" />
