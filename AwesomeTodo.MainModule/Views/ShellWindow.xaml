@@ -47,8 +47,6 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <!--<Button Tag="AngleLeft"  Width="24" />
-                    <Button Tag="AngleRight" Width="24" />-->
                     <controls:NavigationButtons />
                 </StackPanel>
 
