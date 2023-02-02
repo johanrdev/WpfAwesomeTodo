@@ -27,42 +27,7 @@
     </WindowChrome.WindowChrome>
     <Window.Resources>
 
-        <Style TargetType="{ x:Type Button }">
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="Height" Value="38" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Foreground" Value="#e5e5e5" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Tag" Value="{ x:Null }" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{ x:Type Button }">
-                        <Border x:Name="ButtonBorder" Margin="{ TemplateBinding Margin }" Padding="{ TemplateBinding Padding }" BorderThickness="{ TemplateBinding BorderThickness }" SnapsToDevicePixels="True" CornerRadius="6">
-                            <Border.Effect>
-                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="4" Direction="270" Opacity="0.7" />
-                            </Border.Effect>
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
-                                    <GradientStop Color="#313131" Offset="0" />
-                                    <GradientStop Color="#232323" Offset="1" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <Border.BorderBrush>
-                                <LinearGradientBrush StartPoint="1, 0" EndPoint="1, 1">
-                                    <GradientStop Color="#5f5f5f" Offset="0" />
-                                    <GradientStop Color="#232323" Offset="0.8" />
-                                </LinearGradientBrush>
-                            </Border.BorderBrush>
-                            <Grid Background="Transparent">
-                                <fa:IconImage Icon="{ Binding Path=Tag, RelativeSource={ RelativeSource TemplatedParent }}" Foreground="{ TemplateBinding Foreground }" Width="20" MaxHeight="20" />
-                                <ContentPresenter Visibility="Collapsed" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
         
     </Window.Resources>
     <DockPanel MouseDown="DockPanel_MouseDown">
@@ -100,9 +65,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Tag="Add" />
-                <Button Grid.Column="1" Tag="Remove" />
-                <Button Grid.Column="2" Tag="Undo" />
+                <Button Grid.Column="0" Tag="Add" Margin="1" />
+                <Button Grid.Column="1" Tag="Remove" Margin="1" />
+                <Button Grid.Column="2" Tag="Undo" Margin="1" />
             </Grid>
             <ListView DockPanel.Dock="Top" Margin="0, 0, 0, 8">
                 <ListViewItem>Item #1</ListViewItem>

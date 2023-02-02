@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeTodo.MainModule", "AwesomeTodo.MainModule\AwesomeTodo.MainModule.csproj", "{AB857A27-E6D4-4DD9-A701-ADEE1A5EBD87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeTodo.Shared", "AwesomeTodo.Shared\AwesomeTodo.Shared.csproj", "{9631AAC0-9BF5-45E3-A671-F4BDE7694E68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AB857A27-E6D4-4DD9-A701-ADEE1A5EBD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB857A27-E6D4-4DD9-A701-ADEE1A5EBD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB857A27-E6D4-4DD9-A701-ADEE1A5EBD87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9631AAC0-9BF5-45E3-A671-F4BDE7694E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9631AAC0-9BF5-45E3-A671-F4BDE7694E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9631AAC0-9BF5-45E3-A671-F4BDE7694E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9631AAC0-9BF5-45E3-A671-F4BDE7694E68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
