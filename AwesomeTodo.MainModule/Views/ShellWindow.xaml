@@ -24,7 +24,44 @@
     <WindowChrome.WindowChrome>
         <WindowChrome ResizeBorderThickness="4" CaptionHeight="0" />
     </WindowChrome.WindowChrome>
-    <DockPanel MouseDown="DockPanel_MouseDown">
-        <Label Content="Hello world!" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <DockPanel MouseDown="DockPanel_MouseDown" Background="Blue">
+        <Border DockPanel.Dock="Top" Padding="10" Height="60">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" MinWidth="70" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" MinWidth="70" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Content="&lt;" Width="30" Height="30" />
+                    <Button Content="&gt;" Width="30" Height="30" />
+                </StackPanel>
+
+                <Label Grid.Column="1" Content="{ Binding Path=Title, FallbackValue='AppName' }" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                <Button Grid.Column="2" Content="X" Width="30" Height="30" HorizontalAlignment="Right" />
+            </Grid>
+        </Border>
+
+        <DockPanel DockPanel.Dock="Top">
+            <TextBox DockPanel.Dock="Top" />
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="Add" />
+                <Button Grid.Column="1" Content="Del" />
+                <Button Grid.Column="2" Content="Clr" />
+            </Grid>
+            <ListView DockPanel.Dock="Top">
+                <ListViewItem>Item #1</ListViewItem>
+                <ListViewItem>Item #2</ListViewItem>
+                <ListViewItem>Item #3</ListViewItem>
+            </ListView>
+        </DockPanel>
     </DockPanel>
 </Window>
