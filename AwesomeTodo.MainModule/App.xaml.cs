@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AwesomeTodo.MainModule.Views;
+using Prism.DryIoc;
+using Prism.Ioc;
+using Prism.Modularity;
 using System.Windows;
 
 namespace AwesomeTodo.MainModule
@@ -11,7 +9,21 @@ namespace AwesomeTodo.MainModule
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<ShellWindow>();
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<MainModule>();
+        }
     }
 }
