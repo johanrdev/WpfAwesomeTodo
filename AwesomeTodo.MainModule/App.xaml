@@ -5,9 +5,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/FontFamily.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/Color.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/LinearGradientBrush.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/TextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/ListView.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

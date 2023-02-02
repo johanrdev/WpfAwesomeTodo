@@ -6,6 +6,10 @@
         <Setter Property="Padding" Value="1" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Border.CornerRadius" Value="6" />
+        <Setter Property="FontFamily" Value="{ StaticResource CustomFont }" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{ x:Type ListView }">
@@ -26,6 +30,7 @@
     <Style x:Key="TodosListViewItemStyle" TargetType="{ x:Type ListViewItem }">
         <Setter Property="TextElement.Foreground" Value="{ StaticResource AccentBrush }" />
         <Setter Property="TextElement.FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{ StaticResource CustomFont }" />
         <Setter Property="Padding" Value="8" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="BorderThickness" Value="2" />

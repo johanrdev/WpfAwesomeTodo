@@ -9,6 +9,7 @@
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Border.CornerRadius" Value="6" />
         <Setter Property="Foreground" Value="{ StaticResource LightGrayForegroundBrush }" />
+        <Setter Property="FontFamily" Value="{ StaticResource CustomFont }" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Tag" Value="{ x:Null }" />
         <Setter Property="Template">

@@ -28,50 +28,7 @@
     </WindowChrome.WindowChrome>
     <Window.Resources>
 
-        <Style TargetType="{ x:Type TextBox }">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{ StaticResource MediumGrayForegroundBrush }" />
-            <Setter Property="Padding" Value="4, 0" />
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="Height" Value="38" />
-            <Setter Property="BorderThickness" Value="1.5" />
-            <Setter Property="Border.CornerRadius" Value="6" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{ x:Type TextBox }">
-                        <Border x:Name="TextBoxBorder" Padding="{ TemplateBinding Padding }" Margin="{ TemplateBinding Margin }" Height="{ TemplateBinding Height }" Background="{ StaticResource TextBoxBackgroundGradientStyle }" BorderBrush="{ StaticResource InverseButtonBorderGradientStyle }" BorderThickness="{ TemplateBinding BorderThickness }" CornerRadius="{ TemplateBinding Border.CornerRadius }" SnapsToDevicePixels="True">
-                            <Border.Effect>
-                                <DropShadowEffect Color="{ StaticResource DeepestDarkGrayColor }" BlurRadius="4" ShadowDepth="0" Opacity="0.2" />
-                            </Border.Effect>
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="TextBoxBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.4" />
-                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="TextBoxBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.4" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unfocused">
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="TextBoxBorder" To="{ StaticResource DarkGrayColor }" Duration="0:0:0.2" />
-                                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="TextBoxBorder" To="{ StaticResource LightGrayColor }" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
-                            <ScrollViewer x:Name="PART_ContentHost" Foreground="Blue" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
         
     </Window.Resources>
     <DockPanel MouseDown="DockPanel_MouseDown">
@@ -93,7 +50,7 @@
                     <controls:NavigationButtons />
                 </StackPanel>
 
-                <Label Grid.Column="1" Content="{ Binding Path=Title, FallbackValue='AppName' }" FontSize="20" FontWeight="Bold" Foreground="{ StaticResource LightGrayForegroundBrush }" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <Label Grid.Column="1" Content="{ Binding Path=Title, FallbackValue='AppName' }" FontSize="20" FontFamily="{ StaticResource CustomFont }" FontWeight="Bold" Foreground="{ StaticResource LightGrayForegroundBrush }" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
                 <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="PowerOff" Width="38" HorizontalAlignment="Right" />
             </Grid>
@@ -101,6 +58,7 @@
 
         <DockPanel DockPanel.Dock="Top" Margin="10">
             <TextBox DockPanel.Dock="Top"/>
+            
             <Grid DockPanel.Dock="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -112,11 +70,8 @@
                 <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Margin="1" />
                 <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Margin="1" />
             </Grid>
-            <ListView DockPanel.Dock="Top" Style="{ StaticResource TodosListViewStyle }" ItemContainerStyle="{ StaticResource TodosListViewItemStyle }" Margin="0, 8">
-                <ListViewItem>Item #1</ListViewItem>
-                <ListViewItem>Item #2</ListViewItem>
-                <ListViewItem>Item #3</ListViewItem>
-            </ListView>
+
+            <ListView DockPanel.Dock="Top" ItemsSource="{ Binding Path=Todos }" SelectedItem="{ Binding Path=SelectedTodo }" Style="{ StaticResource TodosListViewStyle }" ItemContainerStyle="{ StaticResource TodosListViewItemStyle }" Margin="0, 8" />
         </DockPanel>
     </DockPanel>
 </Window>
