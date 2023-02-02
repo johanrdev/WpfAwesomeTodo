@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace AwesomeTodo.MainModule.Views
 {
@@ -10,6 +11,11 @@ namespace AwesomeTodo.MainModule.Views
         public ShellWindow()
         {
             InitializeComponent();
+        }
+
+        private void DockPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left) DragMove();
         }
     }
 }

@@ -4,8 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="ShellWindow" Height="450" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        TextOptions.TextFormattingMode="Display"
+        RenderOptions.ClearTypeHint="Enabled"
+        RenderOptions.BitmapScalingMode="NearestNeighbor"
+        ResizeMode="CanResize"
+        MinHeight="300"
+        MinWidth="320"
+        MaxHeight="900"
+        MaxWidth="700"
+        Height="520"
+        Width="340"
+        Title="ShellWindow">
+    <Window.Effect>
+        <DropShadowEffect Color="Gray" BlurRadius="20" Direction="-90" RenderingBias="Quality" ShadowDepth="4" />
+    </Window.Effect>
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="4" CaptionHeight="0" />
+    </WindowChrome.WindowChrome>
+    <DockPanel MouseDown="DockPanel_MouseDown">
         <Label Content="Hello world!" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    </DockPanel>
 </Window>
