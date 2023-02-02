@@ -69,7 +69,7 @@
                 <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Margin="1" />
                 <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Margin="1" />
             </Grid>
-            <ListView DockPanel.Dock="Top" Margin="0, 0, 0, 8">
+            <ListView DockPanel.Dock="Top" Style="{ StaticResource TodosListViewStyle }" Margin="0, 0, 0, 8">
                 <ListViewItem>Item #1</ListViewItem>
                 <ListViewItem>Item #2</ListViewItem>
                 <ListViewItem>Item #3</ListViewItem>
