@@ -48,4 +48,9 @@
         <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="1" />
     </LinearGradientBrush>
 
+    <RadialGradientBrush x:Key="CheckBoxBackgroundGradientStyle" RadiusX="1" RadiusY="1">
+        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
+        <GradientStop Color="{ StaticResource DeepestDarkGrayColor }" Offset="0.8" />
+    </RadialGradientBrush>
+
 </ResourceDictionary>
