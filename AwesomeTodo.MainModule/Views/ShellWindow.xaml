@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:controls="clr-namespace:AwesomeTodo.Shared.Controls;assembly=AwesomeTodo.Shared"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -46,13 +47,14 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button Tag="AngleLeft"  Width="24" />
-                    <Button Tag="AngleRight" Width="24" />
+                    <!--<Button Tag="AngleLeft"  Width="24" />
+                    <Button Tag="AngleRight" Width="24" />-->
+                    <controls:NavigationButtons />
                 </StackPanel>
 
                 <Label Grid.Column="1" Content="{ Binding Path=Title, FallbackValue='AppName' }" FontSize="20" FontWeight="Bold" Foreground="{ StaticResource ForegroundBrush }" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-                <Button Grid.Column="2" Tag="PowerOff" Width="38" HorizontalAlignment="Right" />
+                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="PowerOff" Width="38" HorizontalAlignment="Right" />
             </Grid>
         </Border>
 
@@ -65,9 +67,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Tag="Add" Margin="1" />
-                <Button Grid.Column="1" Tag="Remove" Margin="1" />
-                <Button Grid.Column="2" Tag="Undo" Margin="1" />
+                <Button Grid.Column="0" Style="{ StaticResource ButtonBaseStyle }" Tag="Add" Margin="1" />
+                <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Margin="1" />
+                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Margin="1" />
             </Grid>
             <ListView DockPanel.Dock="Top" Margin="0, 0, 0, 8">
                 <ListViewItem>Item #1</ListViewItem>

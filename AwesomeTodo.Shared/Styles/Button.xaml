@@ -2,18 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
     
-    <Style TargetType="{ x:Type Button }">
+    <Style TargetType="{ x:Type Button }" x:Key="ButtonBaseStyle">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="38" />
         <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Border.CornerRadius" Value="6" />
         <Setter Property="Foreground" Value="{ StaticResource ForegroundBrush }" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Tag" Value="{ x:Null }" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{ x:Type Button }">
-                    <Border x:Name="ButtonBorder" Margin="{ TemplateBinding Margin }" Padding="{ TemplateBinding Padding }" BorderThickness="{ TemplateBinding BorderThickness }" SnapsToDevicePixels="True" CornerRadius="6">
+                    <Border x:Name="ButtonBorder" Margin="{ TemplateBinding Margin }" Padding="{ TemplateBinding Padding }" BorderThickness="{ TemplateBinding BorderThickness }" CornerRadius="{ TemplateBinding Border.CornerRadius }" SnapsToDevicePixels="True">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -49,7 +50,7 @@
                             </LinearGradientBrush>
                         </Border.BorderBrush>
                         <Grid Background="Transparent">
-                            <fa:IconImage x:Name="ButtonIcon" Icon="{ Binding Path=Tag, RelativeSource={ RelativeSource TemplatedParent }}" Foreground="{ TemplateBinding Foreground }" Width="20" MaxHeight="20" />
+                            <fa:IconImage x:Name="ButtonIcon" Icon="{ Binding Path=Tag, RelativeSource={ RelativeSource TemplatedParent }}" Foreground="{ TemplateBinding Foreground }" Width="20" MaxHeight="15" />
                             <ContentPresenter Visibility="Collapsed" />
                         </Grid>
                     </Border>
@@ -68,6 +69,20 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- Navigation Buttons -->
+    <Style x:Key="LeftNavigationButtonStyle" TargetType="Button" BasedOn="{ StaticResource ButtonBaseStyle }">
+        <Style.Setters>
+            <Setter Property="Border.CornerRadius" Value="6, 0, 0, 6" />
+            <Setter Property="Height" Value="32" />
+        </Style.Setters>
+    </Style>
+    <Style x:Key="RightNavigationButtonStyle" TargetType="Button" BasedOn="{ StaticResource ButtonBaseStyle }">
+        <Style.Setters>
+            <Setter Property="Border.CornerRadius" Value="0, 6, 6, 0" />
+            <Setter Property="Height" Value="32" />
+        </Style.Setters>
     </Style>
 
 </ResourceDictionary>
