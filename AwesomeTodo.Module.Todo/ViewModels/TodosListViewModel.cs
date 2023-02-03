@@ -1,6 +1,7 @@
 ﻿using AwesomeTodo.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -25,15 +26,16 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public TodosListViewModel()
         {
             Todos = new ObservableCollection<TodoItem>();
-            Todos.Add(new TodoItem { Title = "My first todo" });
-            Todos.Add(new TodoItem { Title = "My second todo" });
-            Todos.Add(new TodoItem { Title = "My third todo" });
-            Todos.Add(new TodoItem { Title = "My fourth todo" });
-            Todos.Add(new TodoItem { Title = "My fifth todo" });
+            Todos.Add(new TodoItem { Id = 1, Title = "My first todo" });
+            Todos.Add(new TodoItem { Id = 2, Title = "My second todo" });
+            Todos.Add(new TodoItem { Id = 3, Title = "My third todo" });
+            Todos.Add(new TodoItem { Id = 4, Title = "My fourth todo" });
+            Todos.Add(new TodoItem { Id = 5, Title = "My fifth todo" });
             SelectedTodo = Todos.First();
 
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
-            RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand);
+            RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
+                    .ObservesProperty(() => SelectedTodo);
             ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand);
         }
 
@@ -49,18 +51,24 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
         private void ExecuteRemoveTodosCommand(object obj)
         {
-            Debug.WriteLine("Remove todos:");
-            Debug.WriteLine(obj);
+            var items = ((IList)obj).OfType<TodoItem>().ToList();
+            
+            foreach (var item in items)
+            {
+                var todo = Todos.Where(t => t.Id == item.Id).First();
+
+                Todos.Remove(todo);
+            }
         }
 
         private bool CanExecuteRemoveTodosCommand(object obj)
         {
-            return true;
+            return SelectedTodo != null;
         }
 
         private void ExecuteResetTodosCommand()
         {
-            Debug.WriteLine("Reset todos");
+            
         }
 
         private bool CanExecuteResetTodosCommand()
