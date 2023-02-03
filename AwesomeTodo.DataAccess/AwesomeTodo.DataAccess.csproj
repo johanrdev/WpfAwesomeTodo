@@ -59,6 +59,14 @@
     <Compile Include="Migrations\202302031807336_InitialMigration.designer.cs">
       <DependentUpon>202302031807336_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302031836505_AddedPropertyIsCompletedInTodoItemModel.cs" />
+    <Compile Include="Migrations\202302031836505_AddedPropertyIsCompletedInTodoItemModel.designer.cs">
+      <DependentUpon>202302031836505_AddedPropertyIsCompletedInTodoItemModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302031839032_ChangedTodoItemsTableNameToTodos.cs" />
+    <Compile Include="Migrations\202302031839032_ChangedTodoItemsTableNameToTodos.designer.cs">
+      <DependentUpon>202302031839032_ChangedTodoItemsTableNameToTodos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +78,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202302031807336_InitialMigration.resx">
       <DependentUpon>202302031807336_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302031836505_AddedPropertyIsCompletedInTodoItemModel.resx">
+      <DependentUpon>202302031836505_AddedPropertyIsCompletedInTodoItemModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302031839032_ChangedTodoItemsTableNameToTodos.resx">
+      <DependentUpon>202302031839032_ChangedTodoItemsTableNameToTodos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
