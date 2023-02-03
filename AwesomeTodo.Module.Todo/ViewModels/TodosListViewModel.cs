@@ -24,6 +24,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         }
 
         public ObservableCollection<TodoItem> Todos { get; }
+        public DelegateCommand<TodoItem> ToggleTodoCompletionCommand { get; }
         public DelegateCommand GotoAddTodoViewCommand { get; }
         public DelegateCommand<object> RemoveTodosCommand { get; }
         public DelegateCommand ResetTodosCommand { get; }
@@ -31,6 +32,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public TodosListViewModel()
         {
             Todos = new ObservableCollection<TodoItem>();
+            ToggleTodoCompletionCommand = new DelegateCommand<TodoItem>(ExecuteToggleTodoCompletionCommand);
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
                     .ObservesProperty(() => SelectedTodo);
@@ -58,6 +60,16 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 }
 
                 SelectedTodo = Todos.First();
+            }
+        }
+
+        private void ExecuteToggleTodoCompletionCommand(TodoItem obj)
+        {
+            using (var ctx = new AwesomeTodoDbContext())
+            {
+                var todo = ctx.Todos.Find(obj.Id);
+                todo.IsCompleted = obj.IsCompleted;
+                ctx.SaveChanges();
             }
         }
 
