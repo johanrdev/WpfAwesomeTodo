@@ -35,8 +35,9 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             ToggleTodoCompletionCommand = new DelegateCommand<TodoItem>(ExecuteToggleTodoCompletionCommand);
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
-                    .ObservesProperty(() => SelectedTodo);
-            ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand);
+                .ObservesProperty(() => SelectedTodo);
+            ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand)
+                .ObservesProperty(() => Todos.Count);
 
             LoadTodos().Await();
         }
@@ -71,6 +72,8 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 todo.IsCompleted = obj.IsCompleted;
                 ctx.SaveChanges();
             }
+
+            RaisePropertyChanged(nameof(Todos));
         }
 
         private void ExecuteGotoAddTodoViewCommand()
@@ -112,12 +115,24 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
         private void ExecuteResetTodosCommand()
         {
-            
+            using (var ctx = new AwesomeTodoDbContext()) 
+            {
+                var todos = ctx.Todos.Where(t => t.IsCompleted);
+
+                foreach (var todo in todos) 
+                {
+                    todo.IsCompleted = false;
+                }
+
+                ctx.SaveChanges();
+            }
+
+            LoadTodos().Await();
         }
 
         private bool CanExecuteResetTodosCommand()
         {
-            return true;
+            return Todos.Count(t => t.IsCompleted) > 0;
         }
     }
 }
