@@ -49,22 +49,6 @@
             </Grid>
         </Border>
 
-        <DockPanel DockPanel.Dock="Top" Margin="10">
-            <TextBox DockPanel.Dock="Top"/>
-
-            <Grid DockPanel.Dock="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" Style="{ StaticResource ButtonBaseStyle }" Tag="Add" Margin="1" />
-                <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Margin="1" />
-                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Margin="1" />
-            </Grid>
-
-            <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{ x:Static constants:RegionNames.ContentRegion }" />
-        </DockPanel>
+        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{ x:Static constants:RegionNames.ContentRegion }" />
     </DockPanel>
 </Window>
