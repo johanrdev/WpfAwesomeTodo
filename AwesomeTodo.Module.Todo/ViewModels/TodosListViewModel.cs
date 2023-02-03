@@ -1,10 +1,15 @@
-﻿using AwesomeTodo.DataAccess.Models;
+﻿using AwesomeTodo.DataAccess;
+using AwesomeTodo.DataAccess.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
 {
@@ -26,17 +31,34 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public TodosListViewModel()
         {
             Todos = new ObservableCollection<TodoItem>();
-            Todos.Add(new TodoItem { Id = 1, Title = "My first todo" });
-            Todos.Add(new TodoItem { Id = 2, Title = "My second todo" });
-            Todos.Add(new TodoItem { Id = 3, Title = "My third todo" });
-            Todos.Add(new TodoItem { Id = 4, Title = "My fourth todo" });
-            Todos.Add(new TodoItem { Id = 5, Title = "My fifth todo" });
-            SelectedTodo = Todos.First();
-
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
                     .ObservesProperty(() => SelectedTodo);
             ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand);
+
+            LoadTodos().Await();
+        }
+
+        private async Task LoadTodos()
+        {
+            List<TodoItem> todos = new List<TodoItem>();
+
+            Todos.Clear();
+
+            using (var ctx = new AwesomeTodoDbContext())
+            {
+                todos = await ctx.Todos.ToListAsync();
+            }
+
+            if (todos.Count > 0)
+            {
+                foreach (var todo in todos)
+                {
+                    Todos.Add(todo);
+                }
+
+                SelectedTodo = Todos.First();
+            }
         }
 
         private void ExecuteGotoAddTodoViewCommand()
@@ -52,13 +74,23 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private void ExecuteRemoveTodosCommand(object obj)
         {
             var items = ((IList)obj).OfType<TodoItem>().ToList();
-            
-            foreach (var item in items)
-            {
-                var todo = Todos.Where(t => t.Id == item.Id).First();
 
-                Todos.Remove(todo);
+            using (var ctx = new AwesomeTodoDbContext())
+            {
+                foreach (var item in items)
+                {
+                    var todo = ctx.Todos.Where(t => t.Id == item.Id).FirstOrDefault();
+
+                    if (todo != null)
+                    {
+                        ctx.Todos.Remove(todo);
+                    }
+
+                    ctx.SaveChanges();
+                }
             }
+
+            LoadTodos().Await();
         }
 
         private bool CanExecuteRemoveTodosCommand(object obj)
