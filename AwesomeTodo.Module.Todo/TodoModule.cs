@@ -18,6 +18,7 @@ namespace AwesomeTodo.Module.Todo
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<TodosListView>();
+            containerRegistry.RegisterForNavigation<AddTodoView>();
         }
     }
 }

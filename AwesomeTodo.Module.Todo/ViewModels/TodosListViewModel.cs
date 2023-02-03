@@ -1,20 +1,21 @@
 ﻿using AwesomeTodo.DataAccess;
 using AwesomeTodo.DataAccess.Models;
+using AwesomeTodo.Shared.Constants;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
 {
-    internal class TodosListViewModel : BindableBase
+    internal class TodosListViewModel : BindableBase, INavigationAware
     {
+        private IRegionManager _regionManager;
         private TodoItem _selectedTodo;
 
         public TodoItem SelectedTodo
@@ -29,8 +30,10 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public DelegateCommand<object> RemoveTodosCommand { get; }
         public DelegateCommand ResetTodosCommand { get; }
 
-        public TodosListViewModel()
+        public TodosListViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
+
             Todos = new ObservableCollection<TodoItem>();
             ToggleTodoCompletionCommand = new DelegateCommand<TodoItem>(ExecuteToggleTodoCompletionCommand);
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
@@ -78,7 +81,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
         private void ExecuteGotoAddTodoViewCommand()
         {
-            Debug.WriteLine("Goto add todo view");
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.AddTodoView);
         }
 
         private bool CanExecuteGotoAddTodoViewCommand()
@@ -133,6 +136,21 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private bool CanExecuteResetTodosCommand()
         {
             return Todos.Count(t => t.IsCompleted) > 0;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
         }
     }
 }

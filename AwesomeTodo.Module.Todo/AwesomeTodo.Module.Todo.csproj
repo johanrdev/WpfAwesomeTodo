@@ -88,7 +88,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="TodoModule.cs" />
+    <Compile Include="ViewModels\AddTodoViewModel.cs" />
     <Compile Include="ViewModels\TodosListViewModel.cs" />
+    <Compile Include="Views\AddTodoView.xaml.cs">
+      <DependentUpon>AddTodoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TodosListView.xaml.cs">
       <DependentUpon>TodosListView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +108,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AddTodoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TodosListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="AwesomeTodo.Module.Todo.Views.AddTodoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AwesomeTodo.Module.Todo.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Margin="10">
+        <Label Content="Title" Foreground="{ StaticResource LightGrayForegroundBrush }" FontFamily="{ StaticResource CustomFont }" />
+        <TextBox />
+        <DockPanel Margin="0, 8, 0, 0">
+            <Button DockPanel.Dock="Right" Style="{ StaticResource ButtonBaseStyle }" Tag="Check" HorizontalAlignment="Right" Width="80" />
+        </DockPanel>
+    </StackPanel>
+</UserControl>

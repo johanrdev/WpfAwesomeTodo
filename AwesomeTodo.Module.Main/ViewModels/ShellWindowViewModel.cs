@@ -17,8 +17,8 @@ namespace AwesomeTodo.Module.Main.ViewModels
         public ShellWindowViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            GotoPreviousViewCommand = new DelegateCommand(ExecuteGotoPreviousViewCommand, CanGotoPreviousView);
-            GotoNextViewCommand = new DelegateCommand(ExecuteGotoNextViewCommand, CanGotoNextView);
+            GotoPreviousViewCommand = new DelegateCommand(ExecuteGotoPreviousViewCommand);
+            GotoNextViewCommand = new DelegateCommand(ExecuteGotoNextViewCommand);
             ExitApplicationCommand = new DelegateCommand(ExecuteExitApplicationCommand);
         }
 

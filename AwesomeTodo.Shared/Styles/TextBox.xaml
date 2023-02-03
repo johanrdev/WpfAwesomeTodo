@@ -39,7 +39,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <ScrollViewer x:Name="PART_ContentHost" Foreground="Blue" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                        <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="{ TemplateBinding VerticalContentAlignment }" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
