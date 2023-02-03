@@ -45,7 +45,7 @@
 
                 <Label Grid.Column="1" Content="{ Binding Path=Title, FallbackValue='AppName' }" FontSize="20" FontFamily="{ StaticResource CustomFont }" FontWeight="Bold" Foreground="{ StaticResource LightGrayForegroundBrush }" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
-                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="PowerOff" Width="38" HorizontalAlignment="Right" />
+                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Command="{ Binding Path=ExitApplicationCommand }" Tag="PowerOff" Width="38" HorizontalAlignment="Right" />
             </Grid>
         </Border>
 

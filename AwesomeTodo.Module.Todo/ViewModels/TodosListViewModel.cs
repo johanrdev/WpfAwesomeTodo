@@ -1,6 +1,7 @@
 ﻿using AwesomeTodo.DataAccess.Models;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
 {
@@ -24,6 +25,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             Todos.Add(new TodoItem { Title = "My third todo" });
             Todos.Add(new TodoItem { Title = "My fourth todo" });
             Todos.Add(new TodoItem { Title = "My fifth todo" });
+            SelectedTodo = Todos.First();
         }
     }
 }

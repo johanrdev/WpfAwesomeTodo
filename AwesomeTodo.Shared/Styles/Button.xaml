@@ -50,6 +50,17 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="ButtonBorder">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0, 0" EndPoint="0, 1">
+                                        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="0" />
+                                        <GradientStop Color="{ StaticResource DarkGrayColor }" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="{ StaticResource MediumGrayBrush }" />
+                        </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" TargetName="ButtonBorder">
                                 <Setter.Value>
