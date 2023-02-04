@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/TextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/ListView.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/AwesomeTodo.Shared;component/Styles/ComboBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

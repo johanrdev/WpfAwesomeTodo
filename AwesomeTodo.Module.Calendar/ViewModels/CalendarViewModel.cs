@@ -185,7 +185,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             private DateTime? _date;
             private int _currentMonth = DateTime.Now.Month;
 
-            public string DisplayDate => _date != null ? ((DateTime)_date).ToString("%d MMM yyyy") : null;
+            public string DisplayDate => _date != null ? ((DateTime)_date).ToString("%d") : null;
 
             public bool IsCurrentMonth => _date != null ? ((DateTime)_date).Month == _currentMonth : false;
             public bool IsCurrentDate => _date != null ? (DateTime)_date == DateTime.Today : false;

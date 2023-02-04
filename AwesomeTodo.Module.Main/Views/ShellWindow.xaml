@@ -17,7 +17,7 @@
         ResizeMode="CanResize"
         MinHeight="300" MinWidth="320"
         MaxHeight="900" MaxWidth="1280"
-        Height="900" Width="1280"
+        Height="700" Width="400"
         Title="{ Binding Path=Title, FallbackValue='AppName' }">
     <Window.Effect>
         <DropShadowEffect Color="Gray" BlurRadius="20" Direction="-90" RenderingBias="Quality" ShadowDepth="4" />
