@@ -1,4 +1,5 @@
-﻿using AwesomeTodo.Module.Main.Views;
+﻿using AwesomeTodo.Module.Calendar;
+using AwesomeTodo.Module.Main.Views;
 using AwesomeTodo.Module.Todo;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -26,6 +27,7 @@ namespace AwesomeTodo.Module.Main
         {
             moduleCatalog.AddModule<MainModule>();
             moduleCatalog.AddModule<TodoModule>();
+            moduleCatalog.AddModule<CalendarModule>();
         }
     }
 }

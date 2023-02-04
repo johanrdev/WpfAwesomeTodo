@@ -144,6 +144,10 @@
       <Project>{99dfcd44-3534-434f-b2e8-9400a2d4bdcd}</Project>
       <Name>AwesomeTodo.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AwesomeTodo.Module.Calendar\AwesomeTodo.Module.Calendar.csproj">
+      <Project>{072448ff-03a2-4118-9cda-b1a0a7de2b07}</Project>
+      <Name>AwesomeTodo.Module.Calendar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AwesomeTodo.Module.Todo\AwesomeTodo.Module.Todo.csproj">
       <Project>{aaa18cf5-486f-47fd-9f2d-bf539b0a9823}</Project>
       <Name>AwesomeTodo.Module.Todo</Name>

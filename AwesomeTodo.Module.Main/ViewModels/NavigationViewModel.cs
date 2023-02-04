@@ -21,8 +21,6 @@ namespace AwesomeTodo.Module.Main.ViewModels
 
         private void ExecuteNavigateCommand(string path)
         {
-            Debug.WriteLine(path);
-
             _regionManager.RequestNavigate(RegionNames.ContentRegion, path);
         }
     }

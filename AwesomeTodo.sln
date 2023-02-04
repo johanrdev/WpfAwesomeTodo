@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeTodo.Module.Todo", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeTodo.DataAccess", "AwesomeTodo.DataAccess\AwesomeTodo.DataAccess.csproj", "{99DFCD44-3534-434F-B2E8-9400A2D4BDCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomeTodo.Module.Calendar", "AwesomeTodo.Module.Calendar\AwesomeTodo.Module.Calendar.csproj", "{072448FF-03A2-4118-9CDA-B1A0A7DE2B07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{99DFCD44-3534-434F-B2E8-9400A2D4BDCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99DFCD44-3534-434F-B2E8-9400A2D4BDCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99DFCD44-3534-434F-B2E8-9400A2D4BDCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{072448FF-03A2-4118-9CDA-B1A0A7DE2B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{072448FF-03A2-4118-9CDA-B1A0A7DE2B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{072448FF-03A2-4118-9CDA-B1A0A7DE2B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{072448FF-03A2-4118-9CDA-B1A0A7DE2B07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
