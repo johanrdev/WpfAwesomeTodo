@@ -6,7 +6,35 @@
              xmlns:local="clr-namespace:AwesomeTodo.Module.Calendar.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Content="Calendar View" />
-    </Grid>
+    <Border BorderBrush="{ StaticResource MediumGrayBrush }" BorderThickness="1.5" CornerRadius="6" Margin="10">
+        <DockPanel>
+            <UniformGrid DockPanel.Dock="Top" Rows="1" Columns="7">
+                <Label Grid.Column="0" Content="Mo" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="Tu" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="We" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="Th" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="Fr" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="Sa" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Grid.Column="0" Content="Su" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            </UniformGrid>
+            <Border DockPanel.Dock="Top">
+                <ItemsControl ItemsSource="{ Binding Path=CalendarItems }">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="6" Columns="7" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2" Background="{ StaticResource InverseButtonBorderGradientStyle }" BorderBrush="{ StaticResource ButtonBorderGradientStyle }" BorderThickness="0.5" CornerRadius="2" Margin="2">
+                                <StackPanel>
+                                    <Label Content="{ Binding Path=DisplayDate }" FontWeight="Bold" FontSize="11" Margin="0" Padding="0" VerticalAlignment="Top" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DockPanel>
+    </Border>
 </UserControl>
