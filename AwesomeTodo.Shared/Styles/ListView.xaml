@@ -69,7 +69,7 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <DockPanel LastChildFill="False" Margin="0">
-                            <Border Width="20" Cursor="ScrollNS">
+                            <Border Width="20">
                                 <fa:IconImage Icon="GripLinesVertical" Height="18" Foreground="{ StaticResource DeepestDarkGrayBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" />
                             </Border>
                             <StackPanel DockPanel.Dock="Left">

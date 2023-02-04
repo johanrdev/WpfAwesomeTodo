@@ -7,9 +7,12 @@ using Prism.Regions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
 {
@@ -17,6 +20,8 @@ namespace AwesomeTodo.Module.Todo.ViewModels
     {
         private IRegionManager _regionManager;
         private TodoItem _selectedTodo;
+        private ListCollectionView _viewSource;
+        private string _filterString;
 
         public TodoItem SelectedTodo
         {
@@ -24,7 +29,19 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             set => SetProperty(ref _selectedTodo, value);
         }
 
+        public ListCollectionView ViewSource
+        {
+            get => _viewSource;
+        }
+
+        public string FilterString
+        {
+            get => _filterString;
+            set => SetProperty(ref _filterString, value);
+        }
+
         public ObservableCollection<TodoItem> Todos { get; }
+        public DelegateCommand FilterCommand { get; }
         public DelegateCommand<TodoItem> ToggleTodoCompletionCommand { get; }
         public DelegateCommand GotoAddTodoViewCommand { get; }
         public DelegateCommand<object> RemoveTodosCommand { get; }
@@ -35,6 +52,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             _regionManager = regionManager;
 
             Todos = new ObservableCollection<TodoItem>();
+            FilterCommand = new DelegateCommand(ExecuteFilterCommand);
             ToggleTodoCompletionCommand = new DelegateCommand<TodoItem>(ExecuteToggleTodoCompletionCommand);
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
@@ -43,6 +61,8 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 .ObservesProperty(() => Todos.Count);
 
             LoadTodos().Await();
+
+            InitializeViewSource();
         }
 
         private async Task LoadTodos()
@@ -65,6 +85,33 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
                 SelectedTodo = Todos.First();
             }
+        }
+
+        private void InitializeViewSource()
+        {
+            _viewSource = (ListCollectionView)CollectionViewSource.GetDefaultView(Todos);
+            _viewSource.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+            _viewSource.IsLiveSorting = true;
+            _viewSource.LiveSortingProperties.Add("Title");
+            _viewSource.Filter = ViewSourceFilter;
+        }
+
+        private bool ViewSourceFilter(object item)
+        {
+            if (item is TodoItem)
+            {
+                var todoItem = item as TodoItem;
+
+                return string.IsNullOrEmpty(FilterString) || string.IsNullOrWhiteSpace(FilterString) ?
+                    !todoItem.IsCompleted : !todoItem.IsCompleted && todoItem.Title.ToLower().Contains(FilterString.ToLower());
+            }
+
+            return true;
+        }
+
+        private void ExecuteFilterCommand()
+        {
+            ViewSource.Refresh();
         }
 
         private void ExecuteToggleTodoCompletionCommand(TodoItem obj)
