@@ -3,11 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:AwesomeTodo.Module.Calendar.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderBrush="{ StaticResource MediumGrayBrush }" BorderThickness="1.5" CornerRadius="6" Margin="10">
         <DockPanel>
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                <ComboBox ItemsSource="{ Binding Path=Years }" SelectedItem="{ Binding Path=SelectedYear }" MinWidth="120" MaxWidth="180" DockPanel.Dock="Left">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{ Binding Path=SelectYearCommand }" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <ComboBox ItemsSource="{ Binding Path=Months }" SelectedItem="{ Binding Path=SelectedMonth }" MinWidth="120" MaxWidth="180" DockPanel.Dock="Left">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{ Binding Path=SelectMonthCommand }" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </DockPanel>
             <UniformGrid DockPanel.Dock="Top" Rows="1" Columns="{ Binding Path=ColumnCount }">
                 <Label Grid.Column="0" Content="Mo" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <Label Grid.Column="1" Content="Tu" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
@@ -17,20 +34,46 @@
                 <Label Grid.Column="5" Content="Sa" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <Label Grid.Column="6" Content="Su" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             </UniformGrid>
-            <Border DockPanel.Dock="Top">
+            <Border DockPanel.Dock="Top" Height="400" VerticalAlignment="Top">
                 <ItemsControl ItemsSource="{ Binding Path=CalendarItems }">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Rows="6" Columns="7" />
+                            <UniformGrid Rows="{ Binding Path=RowCount }" Columns="{ Binding Path=ColumnCount }" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!--<Border Padding="2" Background="{ StaticResource InverseButtonBorderGradientStyle }" BorderBrush="{ StaticResource ButtonBorderGradientStyle }" BorderThickness="0.5" CornerRadius="2" Margin="2">-->
-                                <StackPanel Margin="1" Background="Blue">
+                            <Border CornerRadius="2" Padding="0" Margin="2">
+                                <Border.Style>
+                                    <Style TargetType="{ x:Type Border }">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{ Binding Path=IsCurrentMonth }" Value="True">
+                                                <Setter Property="Background" Value="{ StaticResource InverseButtonBorderGradientStyle }" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{ Binding Path=IsCurrentMonth }" Value="False">
+                                                <Setter Property="Background" Value="{ StaticResource DarkGrayBrush }" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{ Binding Path=IsCurrentDate }" Value="True">
+                                                <Setter Property="BorderBrush" Value="{ StaticResource AccentBrush }" />
+                                                <Setter Property="BorderThickness" Value="4" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{ Binding Path=IsCurrentDate }" Value="False">
+                                                <Setter Property="BorderBrush" Value="{ StaticResource ButtonBorderGradientStyle }" />
+                                                <Setter Property="BorderThickness" Value="1" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Button Margin="1" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDoubleClick">
+                                            <i:InvokeCommandAction Command="{ Binding Path=DataContext.OpenAddCalendarEventCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ItemsControl }} }" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    
                                     <Label Content="{ Binding Path=DisplayDate }" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontWeight="Bold" FontSize="11" Margin="2" Padding="0" VerticalAlignment="Top" />
-                                </StackPanel>
-                            <!--</Border>-->
+                                </Button>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
