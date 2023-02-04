@@ -16,8 +16,8 @@
         RenderOptions.BitmapScalingMode="NearestNeighbor"
         ResizeMode="CanResize"
         MinHeight="300" MinWidth="320"
-        MaxHeight="900" MaxWidth="700"
-        Height="500" Width="700"
+        MaxHeight="900" MaxWidth="1280"
+        Height="900" Width="1280"
         Title="{ Binding Path=Title, FallbackValue='AppName' }">
     <Window.Effect>
         <DropShadowEffect Color="Gray" BlurRadius="20" Direction="-90" RenderingBias="Quality" ShadowDepth="4" />
