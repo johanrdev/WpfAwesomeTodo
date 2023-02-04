@@ -6,6 +6,7 @@
         xmlns:controls="clr-namespace:AwesomeTodo.Shared.Controls;assembly=AwesomeTodo.Shared"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:constants="clr-namespace:AwesomeTodo.Shared.Constants;assembly=AwesomeTodo.Shared"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -49,6 +50,15 @@
             </Grid>
         </Border>
 
-        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{ x:Static constants:RegionNames.ContentRegion }" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{ x:Static constants:RegionNames.NavigationRegion }" />
+
+            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{ x:Static constants:RegionNames.ContentRegion }" />
+        </Grid>
     </DockPanel>
 </Window>
