@@ -1,6 +1,7 @@
 ﻿using AwesomeTodo.DataAccess;
 using AwesomeTodo.DataAccess.Models;
 using AwesomeTodo.Shared.Constants;
+using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -12,6 +13,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
@@ -22,6 +24,8 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private TodoItem _selectedTodo;
         private ListCollectionView _viewSource;
         private string _filterString;
+
+        public bool CanAcceptChildren { get; set; }
 
         public TodoItem SelectedTodo
         {
@@ -90,9 +94,6 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private void InitializeViewSource()
         {
             _viewSource = (ListCollectionView)CollectionViewSource.GetDefaultView(Todos);
-            _viewSource.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
-            _viewSource.IsLiveSorting = true;
-            _viewSource.LiveSortingProperties.Add("Title");
             _viewSource.Filter = ViewSourceFilter;
         }
 
@@ -103,7 +104,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 var todoItem = item as TodoItem;
 
                 return string.IsNullOrEmpty(FilterString) || string.IsNullOrWhiteSpace(FilterString) ?
-                    !todoItem.IsCompleted : !todoItem.IsCompleted && todoItem.Title.ToLower().Contains(FilterString.ToLower());
+                    true : todoItem.Title.ToLower().Contains(FilterString.ToLower());
             }
 
             return true;
@@ -199,5 +200,35 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         {
 
         }
+
+        //void IDropTarget.DragOver(IDropInfo dropInfo)
+        //{
+        //    var sourceItem = dropInfo.Data as TodoItem;
+        //    var targetItem = dropInfo.TargetItem as TodosListViewModel;
+
+        //    if (sourceItem != null && targetItem != null && targetItem.CanAcceptChildren)
+        //    {
+        //        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+        //        dropInfo.Effects = DragDropEffects.Copy;
+        //    }
+        //}
+
+        //void IDropTarget.Drop(IDropInfo dropInfo)
+        //{
+        //    Debug.WriteLine("Drop");
+        //    var sourceItem = dropInfo.Data as TodoItem;
+        //    var targetItem = dropInfo.TargetItem as TodosListViewModel;
+        //    targetItem.Todos.Add(sourceItem);
+        //}
+
+        //public void DragEnter(IDropInfo dropInfo)
+        //{
+        //    Debug.WriteLine("DragEnter");
+        //}
+
+        //public void DragLeave(IDropInfo dropInfo)
+        //{
+        //    Debug.WriteLine("DragLeave");
+        //}
     }
 }
