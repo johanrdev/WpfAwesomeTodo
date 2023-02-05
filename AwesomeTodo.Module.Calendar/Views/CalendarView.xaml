@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        
+
     </UserControl.Resources>
     <Border CornerRadius="6" Margin="10" Padding="0">
         <DockPanel>
@@ -41,18 +41,30 @@
                 <Label Grid.Column="5" Content="Sa" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 <Label Grid.Column="6" Content="Su" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource LightGrayForegroundBrush }" FontSize="10" FontWeight="Bold" Height="25" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             </UniformGrid>
-            <Border BorderBrush="{ StaticResource InverseButtonBorderGradientStyle }" BorderThickness="2" CornerRadius="6" Padding="4">
-                <Border.Background>
+            <DockPanel>
+                <!--<Border.Background>
                     <ImageBrush ImageSource="pack://application:,,,/AwesomeTodo.Shared;component/Images/pattern.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 10, 10" />
-                </Border.Background>
-                <Border VerticalAlignment="Top">
-                    <ItemsControl ItemsSource="{ Binding Path=CalendarItems }">
-                        <ItemsControl.ItemsPanel>
+                </Border.Background>-->
+                <Border DockPanel.Dock="Top">
+                    <ListView ItemsSource="{ Binding Path=CalendarItems }" SelectedItem="{ Binding Path=SelectedCalendarItem }" Margin="0" Padding="0" Background="Transparent" BorderBrush="Transparent">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{ x:Type ListViewItem }">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{ Binding Path=SelectCalendarItemCommand }" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                        <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="{ Binding Path=RowCount }" Columns="{ Binding Path=ColumnCount }" />
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border CornerRadius="2" Padding="0" Margin="2" Height="50" VerticalAlignment="Top">
                                     <Border.Effect>
@@ -118,10 +130,11 @@
                                     </Button>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
-            </Border>
+                <ListView DockPanel.Dock="Top" ItemsSource="{ Binding SelectedCalendarItem.Events }" ItemContainerStyle="{ StaticResource CalendarEventsListViewItem }" DisplayMemberPath="Title" Margin="0, 8, 0, 0" />
+            </DockPanel>
         </DockPanel>
     </Border>
 </UserControl>

@@ -1,8 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
+                    xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+                    xmlns:converters="clr-namespace:AwesomeTodo.Shared.Converters">
 
-    <Style x:Key="TodosListViewStyle" TargetType="{ x:Type ListView }">
+    <converters:AlwaysVisibleConverter x:Key="AlwaysVisibleConverter" />
+
+    <Style TargetType="{ x:Type ListView }">
         <Setter Property="Padding" Value="1" />
         <Setter Property="BorderThickness" Value="1.5" />
         <Setter Property="Border.CornerRadius" Value="6" />
@@ -27,62 +30,124 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TodosListViewItemStyle" TargetType="{ x:Type ListViewItem }">
+    <ControlTemplate TargetType="{ x:Type ListViewItem }" x:Key="TodosListViewItemTemplate">
+        <Border x:Name="ListViewItemBorder" Padding="{ TemplateBinding Padding }" Margin="{ TemplateBinding Margin }" Background="{ StaticResource ListViewItemBackgroundGradientStyle }" BorderThickness="{ TemplateBinding BorderThickness }" BorderBrush="{ StaticResource ListViewItemBorderGradientStyle }" Height="70" CornerRadius="6" SnapsToDevicePixels="True">
+            <Border.Effect>
+                <DropShadowEffect x:Name="ListViewItemBorder" Color="{ StaticResource DeepestDarkGrayColor }" BlurRadius="4" ShadowDepth="4" Direction="270" Opacity="0.4" />
+            </Border.Effect>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource DeepDarkGrayColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource LightGrayColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <DockPanel LastChildFill="False" Margin="0">
+                <Border Width="20">
+                    <fa:IconImage Icon="GripLinesVertical" Height="18" Foreground="{ StaticResource DeepestDarkGrayBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                </Border>
+                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                    <ContentPresenter Content="{ Binding Path=Title }" HorizontalAlignment="{ TemplateBinding HorizontalContentAlignment }" VerticalAlignment="{ TemplateBinding VerticalContentAlignment }" SnapsToDevicePixels="True" />
+                    <Label Content="Published: 12 jan 2023" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
+                    <Label Content="Estimated length: 2 hours" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
+                </StackPanel>
+                <CheckBox DockPanel.Dock="Right" IsChecked="{ Binding Path=IsCompleted }" VerticalAlignment="Center" Command="{ Binding Path=DataContext.ToggleTodoCompletionCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ListView }} }" CommandParameter="{ Binding }" Visibility="{ Binding Path=IsCompleted, Converter={ StaticResource AlwaysVisibleConverter }, FallbackValue=Collapsed }" />
+            </DockPanel>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{ x:Type ListViewItem }" x:Key="CalendarEventsListViewItemTemplate">
+        <Border x:Name="ListViewItemBorder" Padding="{ TemplateBinding Padding }" Margin="{ TemplateBinding Margin }" Background="{ StaticResource ListViewItemBackgroundGradientStyle }" BorderThickness="{ TemplateBinding BorderThickness }" BorderBrush="{ StaticResource ListViewItemBorderGradientStyle }" CornerRadius="6" SnapsToDevicePixels="True">
+            <Border.Effect>
+                <DropShadowEffect x:Name="ListViewItemBorder" Color="{ StaticResource DeepestDarkGrayColor }" BlurRadius="4" ShadowDepth="4" Direction="270" Opacity="0.4" />
+            </Border.Effect>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource DeepDarkGrayColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Selected">
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource LightGrayColor }" Duration="0:0:0.2" />
+                            <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <DockPanel LastChildFill="False" Margin="0">
+                <Border Width="25">
+                    <fa:IconImage Icon="Clock" Foreground="{ StaticResource AccentBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0, 0, 8, 0" />
+                </Border>
+                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                    <ContentPresenter Content="{ Binding Path=Title }" HorizontalAlignment="{ TemplateBinding HorizontalContentAlignment }" VerticalAlignment="{ TemplateBinding VerticalContentAlignment }" SnapsToDevicePixels="True" />
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0">
+                            <Label.Content>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0:HH:mm} - {1:HH:mm}">
+                                            <Binding Path="StartTime" />
+                                            <Binding Path="EndTime" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </ControlTemplate>
+
+    <Style TargetType="{ x:Type ListViewItem }" x:Key="ListViewItemBase">
         <Setter Property="TextElement.Foreground" Value="{ StaticResource AccentBrush }" />
         <Setter Property="TextElement.FontSize" Value="14" />
+        <Setter Property="TextElement.FontWeight" Value="SemiBold" />
         <Setter Property="FontFamily" Value="{ StaticResource CustomFont }" />
         <Setter Property="Padding" Value="8" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{ x:Type ListViewItem }">
-                    <Border x:Name="ListViewItemBorder" Padding="{ TemplateBinding Padding }" Margin="{ TemplateBinding Margin }" Background="{ StaticResource ListViewItemBackgroundGradientStyle }" BorderThickness="{ TemplateBinding BorderThickness }" BorderBrush="{ StaticResource ListViewItemBorderGradientStyle }" Height="70" CornerRadius="6" SnapsToDevicePixels="True">
-                        <Border.Effect>
-                            <DropShadowEffect x:Name="ListViewItemBorder" Color="{ StaticResource DeepestDarkGrayColor }" BlurRadius="4" ShadowDepth="4" Direction="270" Opacity="0.4" />
-                        </Border.Effect>
+    </Style>
 
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="Transparent" Duration="0:0:0.2" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource DeepDarkGrayColor }" Duration="0:0:0.2" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource AccentColor }" Duration="0:0:0.2" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Selected">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource LightGrayColor }" Duration="0:0:0.2" />
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="ListViewItemBorder" To="{ StaticResource MediumGrayColor }" Duration="0:0:0.2" />
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+    <Style TargetType="{ x:Type ListViewItem }" BasedOn="{ StaticResource ListViewItemBase }" x:Key="TodosListViewItem">
+        <Setter Property="Template" Value="{ StaticResource TodosListViewItemTemplate }" />
+    </Style>
 
-                        <DockPanel LastChildFill="False" Margin="0">
-                            <Border Width="20">
-                                <fa:IconImage Icon="GripLinesVertical" Height="18" Foreground="{ StaticResource DeepestDarkGrayBrush }" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            </Border>
-                            <StackPanel DockPanel.Dock="Left">
-                                <ContentPresenter Content="{ Binding Path=Title, FallbackValue='Item title goes here' }" HorizontalAlignment="{ TemplateBinding HorizontalContentAlignment }" VerticalAlignment="{ TemplateBinding VerticalContentAlignment }" SnapsToDevicePixels="True" />
-                                <Label Content="Published: 12 jan 2023" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
-                                <Label Content="Estimated length: 2 hours" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontSize="11" Padding="0" />
-                            </StackPanel>
-                            <CheckBox DockPanel.Dock="Right" IsChecked="{ Binding Path=IsCompleted }" VerticalAlignment="Center" Command="{ Binding Path=DataContext.ToggleTodoCompletionCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ListView }} }" CommandParameter="{ Binding }" />
-                        </DockPanel>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style TargetType="{ x:Type ListViewItem }" BasedOn="{ StaticResource ListViewItemBase }" x:Key="CalendarEventsListViewItem">
+        <Setter Property="Template" Value="{ StaticResource CalendarEventsListViewItemTemplate }" />
     </Style>
 
 </ResourceDictionary>

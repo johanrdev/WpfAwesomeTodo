@@ -24,6 +24,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
         private IList<string> _months = new List<string>();
         private int _selectedYear;
         private string _selectedMonth;
+        private CalendarItem _selectedCalendarItem;
 
         public int ColumnCount => 7;
         public int RowCount => 6;
@@ -64,10 +65,17 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             set => SetProperty(ref _selectedMonth, value);
         }
 
+        public CalendarItem SelectedCalendarItem
+        {
+            get => _selectedCalendarItem;
+            set => SetProperty(ref _selectedCalendarItem, value);
+        }
+
         public ObservableCollection<CalendarItem> CalendarItems { get; private set; }
         public DelegateCommand SelectYearCommand { get; }
         public DelegateCommand SelectMonthCommand { get; }
         public DelegateCommand<CalendarItem> OpenAddCalendarEventCommand { get; }
+        public DelegateCommand<CalendarItem> SelectCalendarItemCommand { get; }
 
         public CalendarViewModel(IDialogService dialogService)
         {
@@ -77,6 +85,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             SelectYearCommand = new DelegateCommand(ExecuteSelectYearCommand);
             SelectMonthCommand = new DelegateCommand(ExecuteSelectMonthCommand);
             OpenAddCalendarEventCommand = new DelegateCommand<CalendarItem>(ExecuteOpenAddCalendarEventCommand);
+            SelectCalendarItemCommand = new DelegateCommand<CalendarItem>(ExecuteSelectCalendarItemCommand);
 
             PopulateYears();
             PopulateMonths();
@@ -103,6 +112,11 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             param.Add("Date", item.Date);
 
             _dialogService.ShowDialog(nameof(AddCalendarEventDialog), param, callback => { });
+        }
+
+        private void ExecuteSelectCalendarItemCommand(CalendarItem item)
+        {
+            Debug.WriteLine(item);
         }
 
         private void PopulateYears()
@@ -152,6 +166,8 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
                     item.Events = new ObservableCollection<CalendarEvent>(events);
                 }
             }
+
+            SelectedCalendarItem = CalendarItems.Where(c => c.Date == DateTime.Today).FirstOrDefault();
         }
 
         private int GetStartOffset()

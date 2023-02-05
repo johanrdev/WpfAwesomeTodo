@@ -61,6 +61,7 @@
     <Compile Include="Controls\NavigationButtons.xaml.cs">
       <DependentUpon>NavigationButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AlwaysVisibleConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
