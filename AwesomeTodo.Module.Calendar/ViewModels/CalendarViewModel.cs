@@ -1,7 +1,9 @@
-﻿using Prism.Commands;
+﻿using AwesomeTodo.DataAccess.Models;
+using AwesomeTodo.Module.Calendar.Dialogs;
+using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,6 +14,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
 {
     internal class CalendarViewModel : BindableBase 
     {
+        private IDialogService _dialogService;
         private int _currentYear = DateTime.Now.Year;
         private int _currentMonth = DateTime.Now.Month;
         private IList<int> _years = new List<int>();
@@ -61,14 +64,16 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
         public ObservableCollection<CalendarItem> CalendarItems { get; private set; }
         public DelegateCommand SelectYearCommand { get; }
         public DelegateCommand SelectMonthCommand { get; }
-        public DelegateCommand OpenAddCalendarEventCommand { get; }
+        public DelegateCommand<CalendarItem> OpenAddCalendarEventCommand { get; }
 
-        public CalendarViewModel()
+        public CalendarViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
+
             CalendarItems = new ObservableCollection<CalendarItem>();
             SelectYearCommand = new DelegateCommand(ExecuteSelectYearCommand);
             SelectMonthCommand = new DelegateCommand(ExecuteSelectMonthCommand);
-            OpenAddCalendarEventCommand = new DelegateCommand(ExecuteOpenAddCalendarEventCommand);
+            OpenAddCalendarEventCommand = new DelegateCommand<CalendarItem>(ExecuteOpenAddCalendarEventCommand);
 
             PopulateYears();
             PopulateMonths();
@@ -89,9 +94,12 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             InitCalendar();
         }
 
-        private void ExecuteOpenAddCalendarEventCommand()
+        private void ExecuteOpenAddCalendarEventCommand(CalendarItem item)
         {
-            Debug.WriteLine("Mouse double click");
+            var param = new DialogParameters();
+            param.Add("Date", item.Date);
+
+            _dialogService.ShowDialog(nameof(AddCalendarEventDialog), param, callback => { });
         }
 
         private void PopulateYears()
@@ -118,6 +126,16 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             foreach (var date in GetStartOffsetDates(startOffset)) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
             foreach (var date in GetDaysInMonth()) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
             foreach (var date in GetEndOffsetDates(endOffset)) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
+
+            // Load calendar events
+            var calendarItem = CalendarItems.Where(c => c.Date == DateTime.Today).FirstOrDefault();
+            
+            if (calendarItem != null)
+            {
+                calendarItem.Events.Add(new CalendarEvent { Id = 1, Title = "Coffee with friend", StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) });
+                calendarItem.Events.Add(new CalendarEvent { Id = 2, Title = "Gym", StartTime = DateTime.Now.AddHours(2), EndTime = DateTime.Now.AddHours(4) });
+                calendarItem.Events.Add(new CalendarEvent { Id = 3, Title = "Watch favourite show", StartTime = DateTime.Now.AddHours(10), EndTime = DateTime.Now.AddHours(12) });
+            }
         }
 
         private int GetStartOffset()
@@ -185,20 +203,23 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             private DateTime? _date;
             private int _currentMonth = DateTime.Now.Month;
 
-            public string DisplayDate => _date != null ? ((DateTime)_date).ToString("%d") : null;
-
-            public bool IsCurrentMonth => _date != null ? ((DateTime)_date).Month == _currentMonth : false;
-            public bool IsCurrentDate => _date != null ? (DateTime)_date == DateTime.Today : false;
-
             public DateTime? Date
             {
                 get => _date;
                 set => SetProperty(ref _date, value);
             }
 
+            public bool HasEvents => Events.Count > 0;
+            public string DisplayDate => _date != null ? ((DateTime)_date).ToString("%d") : null;
+            public bool IsCurrentMonth => _date != null ? ((DateTime)_date).Month == _currentMonth : false;
+            public bool IsCurrentDate => _date != null ? (DateTime)_date == DateTime.Today : false;
+            public ObservableCollection<CalendarEvent> Events { get; }
+
             public CalendarItem(int month)
             {
                 _currentMonth = month;
+
+                Events = new ObservableCollection<CalendarEvent>();
             }
         }
     }

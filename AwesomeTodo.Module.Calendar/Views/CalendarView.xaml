@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -16,14 +17,14 @@
                     <ColumnDefinition Width="*" MaxWidth="180" />
                     <ColumnDefinition Width="*" MaxWidth="180" />
                 </Grid.ColumnDefinitions>
-                <ComboBox Grid.Column="0" Style="{DynamicResource ComboBoxStyle1}" ItemsSource="{ Binding Path=Years }" SelectedItem="{ Binding Path=SelectedYear }" DockPanel.Dock="Left">
+                <ComboBox Grid.Column="0" Style="{DynamicResource ComboBoxStyle1}" ItemsSource="{ Binding Path=Years }" SelectedItem="{ Binding Path=SelectedYear }" DockPanel.Dock="Left" Margin="0, 0, 0.5, 0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{ Binding Path=SelectYearCommand }" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
-                <ComboBox Grid.Column="1" Style="{DynamicResource ComboBoxStyle1}" ItemsSource="{ Binding Path=Months }" SelectedItem="{ Binding Path=SelectedMonth }" DockPanel.Dock="Left">
+                <ComboBox Grid.Column="1" Style="{DynamicResource ComboBoxStyle1}" ItemsSource="{ Binding Path=Months }" SelectedItem="{ Binding Path=SelectedMonth }" DockPanel.Dock="Left" Margin="0.5, 0, 0, 0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{ Binding Path=SelectMonthCommand }" />
@@ -44,7 +45,7 @@
                 <Border.Background>
                     <ImageBrush ImageSource="pack://application:,,,/AwesomeTodo.Shared;component/Images/pattern.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0, 0, 10, 10" />
                 </Border.Background>
-                <Border MaxHeight="400" VerticalAlignment="Top">
+                <Border VerticalAlignment="Top">
                     <ItemsControl ItemsSource="{ Binding Path=CalendarItems }">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -53,7 +54,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="2" Padding="0" Margin="2" Height="38" VerticalAlignment="Top">
+                                <Border CornerRadius="2" Padding="0" Margin="2" Height="50" VerticalAlignment="Top">
                                     <Border.Effect>
                                         <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.4" Color="Black" />
                                     </Border.Effect>
@@ -77,14 +78,43 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                    <Button Margin="1" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                                    <Button Margin="1" BorderThickness="0" Background="Transparent" Cursor="Hand" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseDoubleClick">
-                                                <i:InvokeCommandAction Command="{ Binding Path=DataContext.OpenAddCalendarEventCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ItemsControl }} }" />
+                                                <i:InvokeCommandAction Command="{ Binding Path=DataContext.OpenAddCalendarEventCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ItemsControl }} }" CommandParameter="{ Binding }" />
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
 
-                                        <Label Content="{ Binding Path=DisplayDate }" Foreground="{ StaticResource MediumGrayForegroundBrush }" FontWeight="Bold" FontSize="11" Margin="2" Padding="0" VerticalAlignment="Top" />
+                                        <Grid>
+                                            <Label Content="{ Binding Path=DisplayDate }" Foreground="{ StaticResource MediumGrayForegroundBrush }" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="13" FontFamily="{ StaticResource CustomFont }" Margin="1" Padding="0" />
+
+                                            <Border>
+                                                <Border.Style>
+                                                    <Style TargetType="{ x:Type Border }">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{ Binding Path=HasEvents }" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{ Binding Path=HasEvents }" Value="False">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <fa:IconImage Icon="Clock" Foreground="{ StaticResource AccentBrush }" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20" />
+                                            </Border>
+                                        </Grid>
+
+                                        <!--<StackPanel Background="Red">
+
+                                            <ListView ItemsSource="{ Binding Path=Events }" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Ellipse Width="10" Height="10" Margin="1" Fill="{ StaticResource AccentBrush }" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ListView>
+                                        </StackPanel>-->
                                     </Button>
                                 </Border>
                             </DataTemplate>
