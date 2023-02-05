@@ -6,6 +6,7 @@ namespace AwesomeTodo.DataAccess
     public class AwesomeTodoDbContext : DbContext
     {
         public DbSet<TodoItem> Todos { get; set; }
+        public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
         public AwesomeTodoDbContext() : base("AwesomeTodoDB")
         {

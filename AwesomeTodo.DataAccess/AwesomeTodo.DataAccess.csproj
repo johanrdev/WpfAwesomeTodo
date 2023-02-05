@@ -72,6 +72,10 @@
     <Compile Include="Migrations\202302031839032_ChangedTodoItemsTableNameToTodos.designer.cs">
       <DependentUpon>202302031839032_ChangedTodoItemsTableNameToTodos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302050941458_AddedCalendarEventModel.cs" />
+    <Compile Include="Migrations\202302050941458_AddedCalendarEventModel.designer.cs">
+      <DependentUpon>202302050941458_AddedCalendarEventModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CalendarEvent.cs" />
     <Compile Include="Models\TodoItem.cs" />
@@ -90,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302031839032_ChangedTodoItemsTableNameToTodos.resx">
       <DependentUpon>202302031839032_ChangedTodoItemsTableNameToTodos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302050941458_AddedCalendarEventModel.resx">
+      <DependentUpon>202302050941458_AddedCalendarEventModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
-﻿using AwesomeTodo.DataAccess.Models;
+﻿using AwesomeTodo.DataAccess;
+using AwesomeTodo.DataAccess.Models;
 using AwesomeTodo.Module.Calendar.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -6,6 +7,8 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -128,13 +131,26 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             foreach (var date in GetEndOffsetDates(endOffset)) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
 
             // Load calendar events
-            var calendarItem = CalendarItems.Where(c => c.Date == DateTime.Today).FirstOrDefault();
-            
-            if (calendarItem != null)
+            //var calendarItem = CalendarItems.Where(c => c.Date == DateTime.Today).FirstOrDefault();
+
+            //if (calendarItem != null)
+            //{
+
+            //}
+
+            LoadCalendarEvents();
+        }
+
+        private void LoadCalendarEvents()
+        {
+            using (var ctx = new AwesomeTodoDbContext())
             {
-                calendarItem.Events.Add(new CalendarEvent { Id = 1, Title = "Coffee with friend", StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) });
-                calendarItem.Events.Add(new CalendarEvent { Id = 2, Title = "Gym", StartTime = DateTime.Now.AddHours(2), EndTime = DateTime.Now.AddHours(4) });
-                calendarItem.Events.Add(new CalendarEvent { Id = 3, Title = "Watch favourite show", StartTime = DateTime.Now.AddHours(10), EndTime = DateTime.Now.AddHours(12) });
+                foreach (var item in CalendarItems)
+                {
+                    var events = ctx.CalendarEvents.Where(c => DbFunctions.TruncateTime(c.StartTime) == item.Date);
+
+                    item.Events = new ObservableCollection<CalendarEvent>(events);
+                }
             }
         }
 
@@ -213,7 +229,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             public string DisplayDate => _date != null ? ((DateTime)_date).ToString("%d") : null;
             public bool IsCurrentMonth => _date != null ? ((DateTime)_date).Month == _currentMonth : false;
             public bool IsCurrentDate => _date != null ? (DateTime)_date == DateTime.Today : false;
-            public ObservableCollection<CalendarEvent> Events { get; }
+            public ObservableCollection<CalendarEvent> Events { get; set; }
 
             public CalendarItem(int month)
             {
