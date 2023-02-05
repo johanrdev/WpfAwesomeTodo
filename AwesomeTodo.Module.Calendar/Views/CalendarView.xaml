@@ -90,12 +90,12 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                    <Button Margin="1" BorderThickness="0" Background="Transparent" Cursor="Hand" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="MouseDoubleClick">
+                                    <Button Margin="1" BorderThickness="0" Background="Transparent" Cursor="Hand" IsHitTestVisible="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <!--<i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="RightClick">
                                                 <i:InvokeCommandAction Command="{ Binding Path=DataContext.OpenAddCalendarEventCommand, RelativeSource={ RelativeSource AncestorType={ x:Type ItemsControl }} }" CommandParameter="{ Binding }" />
                                             </i:EventTrigger>
-                                        </i:Interaction.Triggers>
+                                        </i:Interaction.Triggers>-->
 
                                         <Grid>
                                             <Label Content="{ Binding Path=DisplayDate }" Foreground="{ StaticResource MediumGrayForegroundBrush }" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="13" FontFamily="{ StaticResource CustomFont }" Margin="1" Padding="0" />
