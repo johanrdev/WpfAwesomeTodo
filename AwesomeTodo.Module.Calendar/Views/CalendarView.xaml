@@ -47,6 +47,11 @@
                 </Border.Background>-->
                 <Border DockPanel.Dock="Top">
                     <ListView ItemsSource="{ Binding Path=CalendarItems }" SelectedItem="{ Binding Path=SelectedCalendarItem }" Margin="0" Padding="0" Background="Transparent" BorderBrush="Transparent">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add event" Command="{ Binding Path=OpenAddCalendarEventCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{ x:Type ListViewItem }">
                                 <Setter Property="Margin" Value="0" />

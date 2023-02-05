@@ -111,7 +111,28 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             var param = new DialogParameters();
             param.Add("Date", item.Date);
 
-            _dialogService.ShowDialog(nameof(AddCalendarEventDialog), param, callback => { });
+            _dialogService.ShowDialog(nameof(AddCalendarEventDialog), param, callback => 
+            { 
+                if (callback.Result == ButtonResult.OK)
+                {
+                    if (callback.Parameters.ContainsKey("CalendarEvent"))
+                    {
+                        var newCalendarEvent = callback.Parameters.GetValue<CalendarEvent>("CalendarEvent");
+
+                        using (var ctx = new AwesomeTodoDbContext())
+                        {
+                            ctx.CalendarEvents.Add(newCalendarEvent);
+                            ctx.SaveChanges();
+                        }
+
+                        LoadCalendarEvents();
+
+                        InitCalendar();
+
+                        SelectedCalendarItem = CalendarItems.Where(c => c.Date == newCalendarEvent.StartTime.Date).First();
+                    }
+                }
+            });
         }
 
         private void ExecuteSelectCalendarItemCommand(CalendarItem item)
@@ -161,7 +182,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             {
                 foreach (var item in CalendarItems)
                 {
-                    var events = ctx.CalendarEvents.Where(c => DbFunctions.TruncateTime(c.StartTime) == item.Date);
+                    var events = ctx.CalendarEvents.Where(c => DbFunctions.TruncateTime(c.StartTime) == item.Date).OrderBy(c => c.StartTime);
 
                     item.Events = new ObservableCollection<CalendarEvent>(events);
                 }
