@@ -5,29 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:controls="clr-namespace:AwesomeTodo.Shared.Controls;assembly=AwesomeTodo.Shared"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel Margin="10">
-        <TextBox DockPanel.Dock="Top" Text="{ Binding Path=FilterString, UpdateSourceTrigger=PropertyChanged }">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="KeyUp">
-                    <i:InvokeCommandAction Command="{ Binding Path=FilterCommand }" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
+    <Grid>
+        <controls:LoadingSpinner IsLoading="{ Binding Path=IsLoading }" VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="999" />
+        <DockPanel Margin="10" Panel.ZIndex="1">
+            <TextBox DockPanel.Dock="Top" Text="{ Binding Path=FilterString, UpdateSourceTrigger=PropertyChanged }">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="KeyUp">
+                        <i:InvokeCommandAction Command="{ Binding Path=FilterCommand }" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
 
-        <Grid DockPanel.Dock="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Style="{ StaticResource ButtonBaseStyle }" Tag="Add" Command="{ Binding Path=GotoAddTodoViewCommand }" Margin="1" />
-            <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Command="{ Binding Path=RemoveTodosCommand }" CommandParameter="{ Binding Path=SelectedItems, ElementName=DataListView }" Margin="1" />
-            <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Command="{ Binding Path=ResetTodosCommand }" Margin="1" />
-        </Grid>
+                <Button Grid.Column="0" Style="{ StaticResource ButtonBaseStyle }" Tag="Add" Command="{ Binding Path=GotoAddTodoViewCommand }" Margin="1" />
+                <Button Grid.Column="1" Style="{ StaticResource ButtonBaseStyle }" Tag="Remove" Command="{ Binding Path=RemoveTodosCommand }" CommandParameter="{ Binding Path=SelectedItems, ElementName=DataListView }" Margin="1" />
+                <Button Grid.Column="2" Style="{ StaticResource ButtonBaseStyle }" Tag="Undo" Command="{ Binding Path=ResetTodosCommand }" Margin="1" />
+            </Grid>
 
-        <ListView x:Name="DataListView" DockPanel.Dock="Top" ItemsSource="{ Binding Path=Todos }" SelectedItem="{ Binding Path=SelectedTodo }" ItemContainerStyle="{ StaticResource TodosListViewItem }" Margin="0, 8" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" />
-    </DockPanel>
+            <ListView x:Name="DataListView" DockPanel.Dock="Top" ItemsSource="{ Binding Path=ViewSource }" SelectedItem="{ Binding Path=SelectedTodo }" ItemContainerStyle="{ StaticResource TodosListViewItem }" Margin="0, 8" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Edit" Command="{ Binding Path=EditTodoItemCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
+                        <MenuItem Header="Remove" Command="{ Binding Path=RemoveTodoItemCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </DockPanel>
+    </Grid>
 </UserControl>

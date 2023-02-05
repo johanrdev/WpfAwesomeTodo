@@ -8,9 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Margin="10">
         <Label Content="Title" Foreground="{ StaticResource LightGrayForegroundBrush }" FontFamily="{ StaticResource CustomFont }" />
-        <TextBox />
+        <TextBox Text="{ Binding Path=Title }" />
         <DockPanel Margin="0, 8, 0, 0">
-            <Button DockPanel.Dock="Right" Style="{ StaticResource ButtonBaseStyle }" Tag="Check" HorizontalAlignment="Right" Width="80" />
+            <Button DockPanel.Dock="Right" Style="{ StaticResource ButtonBaseStyle }" Command="{ Binding Path=AddTodoCommand }" Tag="Check" HorizontalAlignment="Right" Width="80" />
         </DockPanel>
     </StackPanel>
 </UserControl>

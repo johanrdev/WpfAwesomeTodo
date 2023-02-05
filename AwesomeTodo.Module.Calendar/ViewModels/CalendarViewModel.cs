@@ -165,14 +165,6 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             foreach (var date in GetDaysInMonth()) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
             foreach (var date in GetEndOffsetDates(endOffset)) CalendarItems.Add(new CalendarItem(_currentMonth) { Date = date });
 
-            // Load calendar events
-            //var calendarItem = CalendarItems.Where(c => c.Date == DateTime.Today).FirstOrDefault();
-
-            //if (calendarItem != null)
-            //{
-
-            //}
-
             LoadCalendarEvents();
         }
 

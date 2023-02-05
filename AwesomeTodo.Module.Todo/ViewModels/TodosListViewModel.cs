@@ -1,16 +1,12 @@
 ﻿using AwesomeTodo.DataAccess;
 using AwesomeTodo.DataAccess.Models;
 using AwesomeTodo.Shared.Constants;
-using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,11 +17,18 @@ namespace AwesomeTodo.Module.Todo.ViewModels
     internal class TodosListViewModel : BindableBase, INavigationAware
     {
         private IRegionManager _regionManager;
+        private bool _isLoading;
         private TodoItem _selectedTodo;
         private ListCollectionView _viewSource;
         private string _filterString;
 
         public bool CanAcceptChildren { get; set; }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
 
         public TodoItem SelectedTodo
         {
@@ -36,6 +39,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public ListCollectionView ViewSource
         {
             get => _viewSource;
+            set => SetProperty(ref _viewSource, value);
         }
 
         public string FilterString
@@ -44,7 +48,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             set => SetProperty(ref _filterString, value);
         }
 
-        public ObservableCollection<TodoItem> Todos { get; }
+        public ObservableCollection<TodoItem> Todos { get; private set; }
         public DelegateCommand FilterCommand { get; }
         public DelegateCommand<TodoItem> ToggleTodoCompletionCommand { get; }
         public DelegateCommand GotoAddTodoViewCommand { get; }
@@ -63,38 +67,39 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 .ObservesProperty(() => SelectedTodo);
             ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand)
                 .ObservesProperty(() => Todos.Count);
-
-            LoadTodos().Await();
-
-            InitializeViewSource();
         }
 
-        private async Task LoadTodos()
+        private void LoadTodos()
         {
-            List<TodoItem> todos = new List<TodoItem>();
+            List<TodoItem> todos;
 
-            Todos.Clear();
+            IsLoading = true;
 
-            using (var ctx = new AwesomeTodoDbContext())
+            Task.Run(() =>
             {
-                todos = await ctx.Todos.ToListAsync();
-            }
-
-            if (todos.Count > 0)
-            {
-                foreach (var todo in todos)
+                using (var ctx = new AwesomeTodoDbContext())
                 {
-                    Todos.Add(todo);
+                    todos = ctx.Todos.ToList();
                 }
 
-                SelectedTodo = Todos.First();
-            }
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    IsLoading = false;
+
+                    Todos = new ObservableCollection<TodoItem>(todos);
+
+                    SelectedTodo = Todos.FirstOrDefault();
+
+                    InitializeViewSource();
+                });
+            });
         }
 
         private void InitializeViewSource()
         {
-            _viewSource = (ListCollectionView)CollectionViewSource.GetDefaultView(Todos);
-            _viewSource.Filter = ViewSourceFilter;
+            ViewSource = (ListCollectionView)CollectionViewSource.GetDefaultView(Todos);
+            ViewSource.Filter = ViewSourceFilter;
+            ViewSource.Refresh();
         }
 
         private bool ViewSourceFilter(object item)
@@ -156,7 +161,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 }
             }
 
-            LoadTodos().Await();
+            LoadTodos();
         }
 
         private bool CanExecuteRemoveTodosCommand(object obj)
@@ -178,7 +183,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
                 ctx.SaveChanges();
             }
 
-            LoadTodos().Await();
+            LoadTodos();
         }
 
         private bool CanExecuteResetTodosCommand()
@@ -188,7 +193,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
+            LoadTodos();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -200,35 +205,5 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         {
 
         }
-
-        //void IDropTarget.DragOver(IDropInfo dropInfo)
-        //{
-        //    var sourceItem = dropInfo.Data as TodoItem;
-        //    var targetItem = dropInfo.TargetItem as TodosListViewModel;
-
-        //    if (sourceItem != null && targetItem != null && targetItem.CanAcceptChildren)
-        //    {
-        //        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-        //        dropInfo.Effects = DragDropEffects.Copy;
-        //    }
-        //}
-
-        //void IDropTarget.Drop(IDropInfo dropInfo)
-        //{
-        //    Debug.WriteLine("Drop");
-        //    var sourceItem = dropInfo.Data as TodoItem;
-        //    var targetItem = dropInfo.TargetItem as TodosListViewModel;
-        //    targetItem.Todos.Add(sourceItem);
-        //}
-
-        //public void DragEnter(IDropInfo dropInfo)
-        //{
-        //    Debug.WriteLine("DragEnter");
-        //}
-
-        //public void DragLeave(IDropInfo dropInfo)
-        //{
-        //    Debug.WriteLine("DragLeave");
-        //}
     }
 }

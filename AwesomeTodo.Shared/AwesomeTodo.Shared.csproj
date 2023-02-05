@@ -58,10 +58,12 @@
   <ItemGroup>
     <Compile Include="Constants\RegionNames.cs" />
     <Compile Include="Constants\ViewNames.cs" />
+    <Compile Include="Controls\LoadingSpinner.cs" />
     <Compile Include="Controls\NavigationButtons.xaml.cs">
       <DependentUpon>NavigationButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AlwaysVisibleConverter.cs" />
+    <Compile Include="Converters\DiameterAndThicknessToStrokeDashArrayConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,6 +133,10 @@
     <Page Include="Styles\TextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
