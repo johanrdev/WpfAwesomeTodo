@@ -84,6 +84,10 @@
       <DependentUpon>AddCalendarEventDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AddCalendarEventDialogViewModel.cs" />
+    <Compile Include="Dialogs\EditCalendarEventDialog.xaml.cs">
+      <DependentUpon>EditCalendarEventDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditCalendarEventDialogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,6 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\AddCalendarEventDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditCalendarEventDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

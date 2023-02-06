@@ -96,7 +96,10 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 
         private bool CanExecuteAddCalendarEventCommand()
         {
-            return EventTitle.Length >= 3 && StartTime.Length >= 5 && EndTime.Length >= 5 && !HasErrors;
+            return EventTitle.Length >= 3 
+                && StartTime.Length >= 5 
+                && EndTime.Length >= 5 
+                && !HasErrors;
         }
 
         public bool CanCloseDialog()

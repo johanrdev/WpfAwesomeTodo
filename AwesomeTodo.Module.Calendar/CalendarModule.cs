@@ -17,6 +17,7 @@ namespace AwesomeTodo.Module.Calendar
             containerRegistry.RegisterForNavigation<CalendarView>();
 
             containerRegistry.RegisterDialog<AddCalendarEventDialog>();
+            containerRegistry.RegisterDialog<EditCalendarEventDialog>();
         }
     }
 }

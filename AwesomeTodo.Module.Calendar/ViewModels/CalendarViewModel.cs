@@ -74,7 +74,8 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
         public ObservableCollection<CalendarItem> CalendarItems { get; private set; }
         public DelegateCommand SelectYearCommand { get; }
         public DelegateCommand SelectMonthCommand { get; }
-        public DelegateCommand<CalendarItem> OpenAddCalendarEventCommand { get; }
+        public DelegateCommand<CalendarItem> OpenAddCalendarEventDialogCommand { get; }
+        public DelegateCommand<CalendarEvent> OpenEditCalendarEventDialogCommand { get; }
         public DelegateCommand<CalendarItem> SelectCalendarItemCommand { get; }
         public DelegateCommand<CalendarEvent> RemoveCalendarEventCommand { get; }
 
@@ -85,7 +86,8 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             CalendarItems = new ObservableCollection<CalendarItem>();
             SelectYearCommand = new DelegateCommand(ExecuteSelectYearCommand);
             SelectMonthCommand = new DelegateCommand(ExecuteSelectMonthCommand);
-            OpenAddCalendarEventCommand = new DelegateCommand<CalendarItem>(ExecuteOpenAddCalendarEventCommand);
+            OpenAddCalendarEventDialogCommand = new DelegateCommand<CalendarItem>(ExecuteOpenAddCalendarEventDialogCommand);
+            OpenEditCalendarEventDialogCommand = new DelegateCommand<CalendarEvent>(ExecuteOpenEditCalendarEventDialogCommand);
             SelectCalendarItemCommand = new DelegateCommand<CalendarItem>(ExecuteSelectCalendarItemCommand);
             RemoveCalendarEventCommand = new DelegateCommand<CalendarEvent>(ExecuteRemoveCalendarEventCommand);
 
@@ -108,7 +110,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             InitCalendar();
         }
 
-        private void ExecuteOpenAddCalendarEventCommand(CalendarItem item)
+        private void ExecuteOpenAddCalendarEventDialogCommand(CalendarItem item)
         {
             var param = new DialogParameters();
             param.Add("Date", item.Date);
@@ -125,6 +127,42 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
                         {
                             ctx.CalendarEvents.Add(newCalendarEvent);
                             ctx.SaveChanges();
+                        }
+
+                        LoadCalendarEvents();
+
+                        InitCalendar();
+
+                        SelectedCalendarItem = CalendarItems.Where(c => c.Date == newCalendarEvent.StartTime.Date).First();
+                    }
+                }
+            });
+        }
+
+        private void ExecuteOpenEditCalendarEventDialogCommand(CalendarEvent calendarEvent)
+        {
+            var param = new DialogParameters();
+            param.Add("CalendarEvent", calendarEvent);
+
+            _dialogService.ShowDialog(nameof(EditCalendarEventDialog), param, callback =>
+            {
+                if (callback.Result == ButtonResult.OK)
+                {
+                    if (callback.Parameters.ContainsKey("CalendarEvent"))
+                    {
+                        var newCalendarEvent = callback.Parameters.GetValue<CalendarEvent>("CalendarEvent");
+
+                        using (var ctx = new AwesomeTodoDbContext())
+                        {
+                            var item = ctx.CalendarEvents.Where(c => c.Id == newCalendarEvent.Id).FirstOrDefault();
+
+                            if (item != null)
+                            {
+                                item.Title = newCalendarEvent.Title;
+                                item.StartTime = newCalendarEvent.StartTime;
+                                item.EndTime = newCalendarEvent.EndTime;
+                                ctx.SaveChanges();
+                            }
                         }
 
                         LoadCalendarEvents();
