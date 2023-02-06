@@ -1,5 +1,4 @@
-﻿using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +14,7 @@ namespace AwesomeTodo.Shared.Validation
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public bool HasErrors => _errors.Count > 0;
+        public bool HasErrors => _errors.Any();
 
         public IEnumerable GetErrors(string propertyName)
         {
@@ -29,11 +28,11 @@ namespace AwesomeTodo.Shared.Validation
             }
         }
 
-        protected override bool SetProperty<T>(ref T member, T val, [CallerMemberName] string propertyName = null)
+        protected override void SetProperty<T>(ref T member, T value, [CallerMemberName] string propertyName = null)
         {
-            ValidateProperty(propertyName, val);
+            base.SetProperty(ref member, value, propertyName);
 
-            return base.SetProperty(ref member, val, propertyName);
+            ValidateProperty(propertyName, value);
         }
 
         private void ValidateProperty<T>(string propertyName, T value)

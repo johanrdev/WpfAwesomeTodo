@@ -9,7 +9,7 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 {
     public class AddCalendarEventDialogViewModel : ValidatableBindableBase, IDialogAware
     {
-        private DateTime _selectedDate;
+        private DateTime _selectedDate = new DateTime();
         private string _eventTitle = string.Empty;
         private string _startTime = string.Empty;
         private string _endTime = string.Empty;
@@ -54,11 +54,14 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 
         public AddCalendarEventDialogViewModel()
         {
-            AddCalendarEventCommand = new DelegateCommand(ExecuteAddCalendarEventCommand, CanExecuteAddCalendarEventCommand)
-                .ObservesProperty(() => EventTitle)
-                .ObservesProperty(() => StartTime)
-                .ObservesProperty(() => EndTime)
-                .ObservesProperty(() => HasErrors);
+            AddCalendarEventCommand = new DelegateCommand(
+                ExecuteAddCalendarEventCommand,
+                CanExecuteAddCalendarEventCommand
+            )
+            .ObservesProperty(() => EventTitle)
+            .ObservesProperty(() => StartTime)
+            .ObservesProperty(() => EndTime)
+            .ObservesProperty(() => HasErrors);
         }
 
         private void ExecuteAddCalendarEventCommand()
@@ -68,8 +71,22 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 
             CalendarEvent calendarEvent = new CalendarEvent();
             calendarEvent.Title = EventTitle;
-            calendarEvent.StartTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, startTimeArray.Hour, startTimeArray.Minute, startTimeArray.Second);
-            calendarEvent.EndTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, endTimeArray.Hour, endTimeArray.Minute, endTimeArray.Second);
+            calendarEvent.StartTime = new DateTime(
+                SelectedDate.Year, 
+                SelectedDate.Month, 
+                SelectedDate.Day,
+                startTimeArray.Hour, 
+                startTimeArray.Minute, 
+                startTimeArray.Second
+            );
+            calendarEvent.EndTime = new DateTime(
+                SelectedDate.Year, 
+                SelectedDate.Month, 
+                SelectedDate.Day, 
+                endTimeArray.Hour, 
+                endTimeArray.Minute, 
+                endTimeArray.Second
+            );
 
             var param = new DialogParameters();
             param.Add("CalendarEvent", calendarEvent);
@@ -79,7 +96,7 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 
         private bool CanExecuteAddCalendarEventCommand()
         {
-            return !HasErrors;
+            return EventTitle.Length >= 3 && StartTime.Length >= 5 && EndTime.Length >= 5 && !HasErrors;
         }
 
         public bool CanCloseDialog()
