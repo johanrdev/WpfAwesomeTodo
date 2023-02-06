@@ -5,5 +5,6 @@
         public static readonly string NavigationView = "NavigationView";
         public static readonly string TodosListView = "TodosListView";
         public static readonly string AddTodoView = "AddTodoView";
+        public static readonly string EditTodoView = "EditTodoView";
     }
 }

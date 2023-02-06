@@ -34,7 +34,7 @@
             <ListView x:Name="DataListView" DockPanel.Dock="Top" ItemsSource="{ Binding Path=ViewSource }" SelectedItem="{ Binding Path=SelectedTodo }" ItemContainerStyle="{ StaticResource TodosListViewItem }" Margin="0, 8" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Edit" Command="{ Binding Path=EditTodoItemCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
+                        <MenuItem Header="Edit" Command="{ Binding Path=GotoEditTodoViewCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
                         <MenuItem Header="Remove" Command="{ Binding Path=RemoveTodoItemCommand }" CommandParameter="{ Binding Path=PlacementTarget.SelectedItem, RelativeSource={ RelativeSource AncestorType={ x:Type ContextMenu }}}" />
                     </ContextMenu>
                 </ListView.ContextMenu>

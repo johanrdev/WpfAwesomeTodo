@@ -4,6 +4,7 @@ using AwesomeTodo.Shared.Constants;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,6 +53,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public DelegateCommand FilterCommand { get; }
         public DelegateCommand<TodoItem> ToggleTodoCompletionCommand { get; }
         public DelegateCommand GotoAddTodoViewCommand { get; }
+        public DelegateCommand<TodoItem> GotoEditTodoViewCommand { get; }
         public DelegateCommand<object> RemoveTodosCommand { get; }
         public DelegateCommand<TodoItem> RemoveTodoItemCommand { get; }
         public DelegateCommand ResetTodosCommand { get; }
@@ -64,6 +66,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             FilterCommand = new DelegateCommand(ExecuteFilterCommand);
             ToggleTodoCompletionCommand = new DelegateCommand<TodoItem>(ExecuteToggleTodoCompletionCommand);
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
+            GotoEditTodoViewCommand = new DelegateCommand<TodoItem>(ExecuteGotoEditTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
                 .ObservesProperty(() => SelectedTodo);
             RemoveTodoItemCommand = new DelegateCommand<TodoItem>(ExecuteRemoveTodoItemCommand);
@@ -142,6 +145,14 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private bool CanExecuteGotoAddTodoViewCommand()
         {
             return true;
+        }
+
+        private void ExecuteGotoEditTodoViewCommand(TodoItem item)
+        {
+            var param = new NavigationParameters();
+            param.Add("TodoItem", item);
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.EditTodoView, param);
         }
 
         private void ExecuteRemoveTodosCommand(object obj)

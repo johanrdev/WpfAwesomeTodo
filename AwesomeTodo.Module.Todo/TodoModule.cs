@@ -19,6 +19,7 @@ namespace AwesomeTodo.Module.Todo
         {
             containerRegistry.RegisterForNavigation<TodosListView>();
             containerRegistry.RegisterForNavigation<AddTodoView>();
+            containerRegistry.RegisterForNavigation<EditTodoView>();
         }
     }
 }

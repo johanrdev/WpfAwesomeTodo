@@ -92,9 +92,13 @@
     </Compile>
     <Compile Include="TodoModule.cs" />
     <Compile Include="ViewModels\AddTodoViewModel.cs" />
+    <Compile Include="ViewModels\EditTodoViewModel.cs" />
     <Compile Include="ViewModels\TodosListViewModel.cs" />
     <Compile Include="Views\AddTodoView.xaml.cs">
       <DependentUpon>AddTodoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditTodoView.xaml.cs">
+      <DependentUpon>EditTodoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TodosListView.xaml.cs">
       <DependentUpon>TodosListView.xaml</DependentUpon>
@@ -112,6 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AddTodoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditTodoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
