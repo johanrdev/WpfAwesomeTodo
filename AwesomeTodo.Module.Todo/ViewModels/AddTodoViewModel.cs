@@ -1,18 +1,21 @@
 ﻿using AwesomeTodo.DataAccess;
 using AwesomeTodo.DataAccess.Models;
 using AwesomeTodo.Shared.Constants;
+using AwesomeTodo.Shared.Validation;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
-using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace AwesomeTodo.Module.Todo.ViewModels
 {
-    internal class AddTodoViewModel : BindableBase, INavigationAware
+    internal class AddTodoViewModel : ValidatableBindableBase, INavigationAware
     {
         private IRegionManager _regionManager;
-        private string _title;
+        private string _title = string.Empty;
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(60)]
         public string Title
         {
             get => _title;
@@ -25,7 +28,9 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         {
             _regionManager = regionManager;
 
-            AddTodoCommand = new DelegateCommand(ExecuteAddTodoCommand);
+            AddTodoCommand = new DelegateCommand(ExecuteAddTodoCommand, CanExecuteAddTodoCommand)
+                .ObservesProperty(() => Title)
+                .ObservesProperty(() => HasErrors);
         }
 
         private void ExecuteAddTodoCommand()
@@ -37,6 +42,11 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             }
 
             _regionManager.RequestNavigate(RegionNames.ContentRegion, ViewNames.TodosListView);
+        }
+
+        private bool CanExecuteAddTodoCommand()
+        {
+            return Title.Length > 0 && !HasErrors;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
