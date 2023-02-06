@@ -17,7 +17,7 @@
         <StackPanel Margin="10">
             <TextBlock Text="{ Binding Path=SelectedDate, StringFormat=Date: {0:d MMMM yyyy} }" Foreground="{ StaticResource MediumGrayForegroundBrush }" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="14" />
             <Label Content="Title" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource MediumGrayForegroundBrush }" />
-            <TextBox Text="{ Binding Path=EventTitle }" />
+            <TextBox Text="{ Binding Path=EventTitle, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged }" />
             <Grid Margin="0, 0, 0, 8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -26,11 +26,11 @@
 
                 <StackPanel Grid.Column="0" Margin="0, 0, 1, 0">
                     <Label Content="Start time" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource MediumGrayForegroundBrush }" />
-                    <TextBox Text="{ Binding Path=StartTime }" />
+                    <TextBox Text="{ Binding Path=StartTime, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged }" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="1, 0, 0, 0">
                     <Label Content="End time" FontFamily="{ StaticResource CustomFont }" Foreground="{ StaticResource MediumGrayForegroundBrush }" />
-                    <TextBox Text="{ Binding Path=EndTime }" />
+                    <TextBox Text="{ Binding Path=EndTime, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged }" />
                 </StackPanel>
             </Grid>
 

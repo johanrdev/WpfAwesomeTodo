@@ -1,19 +1,18 @@
 ﻿using AwesomeTodo.DataAccess.Models;
+using AwesomeTodo.Shared.Validation;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Diagnostics;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace AwesomeTodo.Module.Calendar.Dialogs
 {
-    public class AddCalendarEventDialogViewModel : BindableBase, IDialogAware
+    public class AddCalendarEventDialogViewModel : ValidatableBindableBase, IDialogAware
     {
         private DateTime _selectedDate;
-        private string _eventTitle;
-        private string _startTime;
-        private string _endTime;
+        private string _eventTitle = string.Empty;
+        private string _startTime = string.Empty;
+        private string _endTime = string.Empty;
 
         public DateTime SelectedDate
         {
@@ -21,18 +20,25 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
             set => SetProperty(ref _selectedDate, value);
         }
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(60)]
         public string EventTitle
         {
             get => _eventTitle;
             set => SetProperty(ref _eventTitle, value);
         }
 
+        [Required]
+        [RegularExpression(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")]
         public string StartTime
         {
             get => _startTime;
             set => SetProperty(ref _startTime, value);
         }
 
+        [Required]
+        [RegularExpression(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")]
         public string EndTime
         {
             get => _endTime;
@@ -48,7 +54,11 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
 
         public AddCalendarEventDialogViewModel()
         {
-            AddCalendarEventCommand = new DelegateCommand(ExecuteAddCalendarEventCommand);
+            AddCalendarEventCommand = new DelegateCommand(ExecuteAddCalendarEventCommand, CanExecuteAddCalendarEventCommand)
+                .ObservesProperty(() => EventTitle)
+                .ObservesProperty(() => StartTime)
+                .ObservesProperty(() => EndTime)
+                .ObservesProperty(() => HasErrors);
         }
 
         private void ExecuteAddCalendarEventCommand()
@@ -65,6 +75,11 @@ namespace AwesomeTodo.Module.Calendar.Dialogs
             param.Add("CalendarEvent", calendarEvent);
 
             RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param));
+        }
+
+        private bool CanExecuteAddCalendarEventCommand()
+        {
+            return !HasErrors;
         }
 
         public bool CanCloseDialog()

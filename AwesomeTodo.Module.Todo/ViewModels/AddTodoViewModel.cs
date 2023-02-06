@@ -46,7 +46,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
 
         private bool CanExecuteAddTodoCommand()
         {
-            return Title.Length > 0 && !HasErrors;
+            return !HasErrors;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
