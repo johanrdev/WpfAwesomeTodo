@@ -76,6 +76,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
         public DelegateCommand SelectMonthCommand { get; }
         public DelegateCommand<CalendarItem> OpenAddCalendarEventCommand { get; }
         public DelegateCommand<CalendarItem> SelectCalendarItemCommand { get; }
+        public DelegateCommand<CalendarEvent> RemoveCalendarEventCommand { get; }
 
         public CalendarViewModel(IDialogService dialogService)
         {
@@ -86,6 +87,7 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
             SelectMonthCommand = new DelegateCommand(ExecuteSelectMonthCommand);
             OpenAddCalendarEventCommand = new DelegateCommand<CalendarItem>(ExecuteOpenAddCalendarEventCommand);
             SelectCalendarItemCommand = new DelegateCommand<CalendarItem>(ExecuteSelectCalendarItemCommand);
+            RemoveCalendarEventCommand = new DelegateCommand<CalendarEvent>(ExecuteRemoveCalendarEventCommand);
 
             PopulateYears();
             PopulateMonths();
@@ -138,6 +140,22 @@ namespace AwesomeTodo.Module.Calendar.ViewModels
         private void ExecuteSelectCalendarItemCommand(CalendarItem item)
         {
             Debug.WriteLine(item);
+        }
+
+        private void ExecuteRemoveCalendarEventCommand(CalendarEvent item)
+        {
+            using (var ctx = new AwesomeTodoDbContext())
+            {
+                var calendarEvent = ctx.CalendarEvents.Where(c => c.Id == item.Id).FirstOrDefault();
+                ctx.CalendarEvents.Remove(calendarEvent);
+                ctx.SaveChanges();
+            }
+
+            LoadCalendarEvents();
+
+            InitCalendar();
+
+            SelectedCalendarItem = CalendarItems.Where(c => c.Date == item.StartTime.Date).First();
         }
 
         private void PopulateYears()

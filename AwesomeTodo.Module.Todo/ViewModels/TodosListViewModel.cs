@@ -53,6 +53,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         public DelegateCommand<TodoItem> ToggleTodoCompletionCommand { get; }
         public DelegateCommand GotoAddTodoViewCommand { get; }
         public DelegateCommand<object> RemoveTodosCommand { get; }
+        public DelegateCommand<TodoItem> RemoveTodoItemCommand { get; }
         public DelegateCommand ResetTodosCommand { get; }
 
         public TodosListViewModel(IRegionManager regionManager)
@@ -65,6 +66,7 @@ namespace AwesomeTodo.Module.Todo.ViewModels
             GotoAddTodoViewCommand = new DelegateCommand(ExecuteGotoAddTodoViewCommand, CanExecuteGotoAddTodoViewCommand);
             RemoveTodosCommand = new DelegateCommand<object>(ExecuteRemoveTodosCommand, CanExecuteRemoveTodosCommand)
                 .ObservesProperty(() => SelectedTodo);
+            RemoveTodoItemCommand = new DelegateCommand<TodoItem>(ExecuteRemoveTodoItemCommand);
             ResetTodosCommand = new DelegateCommand(ExecuteResetTodosCommand, CanExecuteResetTodosCommand)
                 .ObservesProperty(() => Todos.Count);
         }
@@ -167,6 +169,23 @@ namespace AwesomeTodo.Module.Todo.ViewModels
         private bool CanExecuteRemoveTodosCommand(object obj)
         {
             return SelectedTodo != null;
+        }
+
+        private void ExecuteRemoveTodoItemCommand(TodoItem item)
+        {
+            using (var ctx = new AwesomeTodoDbContext())
+            {
+                var todo = ctx.Todos.Where(t => t.Id == item.Id).First();
+
+                if (todo != null)
+                {
+                    ctx.Todos.Remove(todo);
+                }
+
+                ctx.SaveChanges();
+            }
+
+            LoadTodos();
         }
 
         private void ExecuteResetTodosCommand()
